@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/base/no_data_page.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
@@ -22,6 +23,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          //header
           Positioned(
               top: Dimensions.height20*3,
               left: Dimensions.width20,
@@ -53,14 +55,16 @@ class CartPage extends StatelessWidget {
                 ],
               )
           ),
-          Positioned(
+          //body
+          GetBuilder<CartController>(builder: (_cartController) {
+            return _cartController.getItems.length >0 ? Positioned(
               top: Dimensions.height20*5,
               left: Dimensions.width20,
               right: Dimensions.width20,
               bottom: 0,
               child: Container(
-                margin: EdgeInsets.only(top: Dimensions.height15),
-                child: MediaQuery.removePadding(
+                  margin: EdgeInsets.only(top: Dimensions.height15),
+                  child: MediaQuery.removePadding(
                     context: context,
                     removeTop: true,
                     child: GetBuilder<CartController>(builder: (cartController) {
@@ -80,7 +84,14 @@ class CartPage extends StatelessWidget {
                                         Get.toNamed(RouteHelper.getPopularFood(popularIndex, "cartPage"));
                                       } else {
                                         var recommendedIndex = Get.find<RecommendedProductController>().recommendedProductList.indexOf(_cartList[index].product!);
-                                        Get.toNamed(RouteHelper.getRecommendedFood(recommendedIndex, "cartPage"));
+                                        if (recommendedIndex<0) {
+                                          Get.snackbar("History product", "Product review is not available for history product!",
+                                            backgroundColor: AppColors.mainColor,
+                                            colorText: Colors.white,
+                                          );
+                                        } else {
+                                          Get.toNamed(RouteHelper.getRecommendedFood(recommendedIndex, "cartPage"));
+                                        }
                                       }
                                     },
                                     child: Container(
@@ -150,7 +161,8 @@ class CartPage extends StatelessWidget {
                           });
                     },),)
               ),
-          ),
+            ) : NoDataPage(text: "Cart is empty!");
+          })
         ],
       ),
       bottomNavigationBar: GetBuilder<CartController>(builder: (cartController) {
@@ -164,7 +176,7 @@ class CartPage extends StatelessWidget {
                 topRight: Radius.circular(Dimensions.radius20*2),
               )
           ),
-          child: Row(
+          child: cartController.getItems.length > 0 ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
@@ -184,6 +196,7 @@ class CartPage extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   // popularProductController.addItem(product);
+                  cartController.addToHistory();
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
@@ -195,7 +208,7 @@ class CartPage extends StatelessWidget {
                 ),
               )
             ],
-          ),
+          ) : Container(),
         );
       },),
     );
