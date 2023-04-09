@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zxvision1/base/no_data_page.dart';
+import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
@@ -195,8 +196,11 @@ class CartPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // popularProductController.addItem(product);
-                  cartController.addToHistory();
+                  if(Get.find<AuthController>().userHasLoggedIn()) {
+                    cartController.addToHistory();
+                  } else {
+                    Get.toNamed(RouteHelper.getLoginPage());
+                  }
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),

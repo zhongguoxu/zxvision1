@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
+import 'package:zxvision1/pages/auth/signin_page.dart';
 import 'package:zxvision1/pages/auth/signup_page.dart';
 import 'package:zxvision1/pages/cart/cart_page.dart';
 import 'package:zxvision1/pages/food/popular_food_detail.dart';
@@ -31,10 +32,10 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          home: SignUpPage(),
+          // home: SignInPage(),
           // home: SplashPage(),
-          // initialRoute: RouteHelper.getSplashPage(),
-          // getPages: RouteHelper.routes,
+          initialRoute: RouteHelper.getSplashPage(),
+          getPages: RouteHelper.routes,
         );
       });
     },);

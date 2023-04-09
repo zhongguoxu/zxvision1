@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:zxvision1/pages/auth/signin_page.dart';
 import 'package:zxvision1/pages/cart/cart_page.dart';
 import 'package:zxvision1/pages/food/popular_food_detail.dart';
 import 'package:zxvision1/pages/food/recommended_food_detail.dart';
@@ -12,14 +13,17 @@ class RouteHelper {
   static const String popularFood="/popular-food";
   static const String recommendedFood="/recommended-food";
   static const String cartPage="/cart-page";
+  static const String login="/login-page";
 
   static String getSplashPage()=>'$splashPage';
   static String getInitial()=>'$initial';
   static String getPopularFood(int pageId, String page)=>'$popularFood?pageId=$pageId&page=$page';
   static String getRecommendedFood(int pageId, String page)=>'$recommendedFood?pageId=$pageId&page=$page';
   static String getCartPage()=>'$cartPage';
+  static String getLoginPage()=>'$login';
 
   static List<GetPage> routes = [
+    GetPage(name: login, page: ()=>SignInPage(), transition: Transition.fade),
     GetPage(name: splashPage, page: ()=>SplashPage()),
     GetPage(name: initial, page: ()=>HomePage()),
     GetPage(
