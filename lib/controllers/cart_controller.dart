@@ -89,8 +89,8 @@ class CartController extends GetxController {
     }).toList();
   }
 
-  int get totalAmout {
-    var total=0;
+  double get totalAmout {
+    var total=0.0;
     _items.forEach((key, value) {
       total += value.quantity! * value.price!;
     });

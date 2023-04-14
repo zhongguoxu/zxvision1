@@ -3,7 +3,7 @@ import 'package:zxvision1/models/products_model.dart';
 class CartModel {
   int? id;
   String? name;
-  int? price;
+  double? price;
   String? img;
   int? quantity;
   bool? isExist;

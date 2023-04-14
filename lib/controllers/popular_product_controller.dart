@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
@@ -5,6 +7,7 @@ import 'package:zxvision1/data/repository/popular_product_repo.dart';
 import 'package:zxvision1/models/cart_model.dart';
 import 'package:zxvision1/models/products_model.dart';
 import 'package:zxvision1/utils/colors.dart';
+import 'package:http/http.dart' as http;
 
 class PopularProductController extends GetxController {
   final PopularProductRepo popularProductRepo;
@@ -19,10 +22,11 @@ class PopularProductController extends GetxController {
   int _inCartItems=0;
   int get inCartItems=>_inCartItems+_quantity;
   Future<void> getPopularProductList() async {
-    Response response = await popularProductRepo.getPopularProductList();
+    http.Response response = await popularProductRepo.getPopularProductList();
     if (response.statusCode==200) { // most http call return 200 for successful response
       _popularProductList = [];
-      _popularProductList.addAll(Product.fromJson(response.body).products);
+      _popularProductList.addAll(Product.fromJson(jsonDecode(response.body)).products);
+      // _popularProductList.addAll(ProductModel.fromJson(jsonDecode(response.body)));
       _isLoaded = true;
       update();
     } else {

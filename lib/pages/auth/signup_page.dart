@@ -49,6 +49,7 @@ class SignUpPage extends StatelessWidget {
             phone: phone,
             email: email,
             password: password,
+            created_at: DateTime.now().toString(),
         );
         authController.registration(signUpBody).then((status) {
           if (status.isSuccess) {

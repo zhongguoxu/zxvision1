@@ -20,7 +20,6 @@ class Accountpage extends StatelessWidget {
     bool _userLoggedIn = Get.find<AuthController>().userHasLoggedIn();
     if (_userLoggedIn) {
       Get.find<UserController>().getUserInfo();
-
     }
     return Scaffold(
       appBar: AppBar(
@@ -99,7 +98,7 @@ class Accountpage extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                    "assets/image/signintocontinue.png"
+                    "assets/image/test1.png"
                   )
                 )
               ),

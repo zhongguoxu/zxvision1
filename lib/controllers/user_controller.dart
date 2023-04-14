@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:zxvision1/data/repository/auth_repo.dart';
 import 'package:zxvision1/data/repository/user_repo.dart';
 import 'package:zxvision1/models/response_model.dart';
 import 'package:zxvision1/models/signup_body_model.dart';
 import 'package:zxvision1/models/user_model.dart';
+import 'package:http/http.dart' as http;
 
 class UserController extends GetxController implements GetxService {
   final UserRepo userRepo;
@@ -19,14 +22,14 @@ class UserController extends GetxController implements GetxService {
   UserModel get userModel=>_userModel;
 
   Future<ResponseModel> getUserInfo() async {
-    Response response = await userRepo.getUserInfo();
+    http.Response response = await userRepo.getUserInfo();
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
-      _userModel = UserModel.fromJson(response.body);
+      _userModel = UserModel.fromJson(jsonDecode(response.body));
       _isLoading = true;
       responseModel = ResponseModel(true, "successfully");
     } else {
-      responseModel = ResponseModel(false, response.statusText!);
+      responseModel = ResponseModel(false, "get user info fails");
     }
     update();
     return responseModel;

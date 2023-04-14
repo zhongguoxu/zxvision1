@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zxvision1/utils/app_constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ApiClient extends GetConnect implements GetxService {
   late String token;
@@ -28,10 +30,18 @@ class ApiClient extends GetConnect implements GetxService {
     }
   }
   Future<Response> postData(String uri, dynamic body) async {
+    print(uri);
+    print(body);
     try {
-      Response response = await post(uri, body, headers: _mainHeaders);
+      // Response response = await post(uri, body, headers: _mainHeaders);
+      Response response = await post("https://jayu.tech/shopping-app/backend/account/Customer_Login.php", {
+        "password": "123456",
+        "email": "a@a.com"
+      });
+      print("post response: "+ response.body.toString());
       return response;
     } catch (e) {
+      print(e.toString());
       return Response(statusCode: 1, statusText: e.toString());
     }
   }
@@ -40,5 +50,20 @@ class ApiClient extends GetConnect implements GetxService {
       'Content-type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token',
     };
+  }
+
+  Future<http.Response> login() async {
+    final response = await http.post(
+      Uri.parse('https://jayu.tech/shopping-app/backend/account/Customer_Login.php'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "password": "123456",
+        "email": "a@a.com"
+      }),
+    );
+    print("http response: "+response.body.toString());
+    return response;
   }
 }

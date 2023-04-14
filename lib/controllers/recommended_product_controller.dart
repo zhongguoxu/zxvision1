@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:zxvision1/models/products_model.dart';
 import '../data/repository/recommended_product_repo.dart';
+import 'package:http/http.dart' as http;
 
 class RecommendedProductController extends GetxController {
   final RecommendedProductRepo recommendedProductRepo;
@@ -10,10 +13,10 @@ class RecommendedProductController extends GetxController {
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
   Future<void> getRecommendedProductList() async {
-    Response response = await recommendedProductRepo.getRecommendedProductList();
+    http.Response response = await recommendedProductRepo.getRecommendedProductList();
     if (response.statusCode==200) { // most http call return 200 for successful response
       _recommendedProductList = [];
-      _recommendedProductList.addAll(Product.fromJson(response.body).products);
+      _recommendedProductList.addAll(Product.fromJson(jsonDecode(response.body)).products);
       _isLoaded = true;
       update();
     } else {

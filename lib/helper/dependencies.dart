@@ -4,6 +4,7 @@ import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
 import 'package:zxvision1/data/api/api_client.dart';
+import 'package:zxvision1/data/api/http_client.dart';
 import 'package:zxvision1/data/repository/auth_repo.dart';
 import 'package:zxvision1/data/repository/cart_repo.dart';
 import 'package:zxvision1/data/repository/popular_product_repo.dart';
@@ -19,13 +20,14 @@ Future<void> init() async {
   Get.lazyPut(() => sharedPreferences);
   //api client
   Get.lazyPut(() => ApiClient(appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find()));
+  Get.lazyPut(() => HttpClient(appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find()));
 
   //repos
-  Get.lazyPut(() => PopularProductRepo(apiClient: Get.find()));
-  Get.lazyPut(() => RecommendedProductRepo(apiClient: Get.find()));
+  Get.lazyPut(() => PopularProductRepo(apiClient: Get.find(), httpClient: Get.find()));
+  Get.lazyPut(() => RecommendedProductRepo(apiClient: Get.find(), httpClient: Get.find()));
   Get.lazyPut(() => CartRepo(sharedPreferences: Get.find()));
-  Get.lazyPut(() => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(() => UserRepo(apiClient: Get.find()));
+  Get.lazyPut(() => AuthRepo(apiClient: Get.find(), httpClient: Get.find(), sharedPreferences: Get.find()));
+  Get.lazyPut(() => UserRepo(apiClient: Get.find(), httpClient: Get.find(), sharedPreferences: Get.find()));
 
   //controllers
   Get.lazyPut(() => PopularProductController(popularProductRepo: Get.find()));
@@ -33,4 +35,6 @@ Future<void> init() async {
   Get.lazyPut(() => CartController(cartRepo: Get.find()));
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
   Get.lazyPut(() => UserController(userRepo: Get.find()));
+
+
 }
