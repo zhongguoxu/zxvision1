@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:zxvision1/pages/address/add_address_page.dart';
+import 'package:zxvision1/pages/address/pick_address_map.dart';
 import 'package:zxvision1/pages/auth/signin_page.dart';
 import 'package:zxvision1/pages/cart/cart_page.dart';
 import 'package:zxvision1/pages/food/popular_food_detail.dart';
@@ -14,6 +16,8 @@ class RouteHelper {
   static const String recommendedFood="/recommended-food";
   static const String cartPage="/cart-page";
   static const String login="/login-page";
+  static const String addAddress="/add-address";
+  static const String pickAddressMap="/pick-address";
 
   static String getSplashPage()=>'$splashPage';
   static String getInitial()=>'$initial';
@@ -21,6 +25,8 @@ class RouteHelper {
   static String getRecommendedFood(int pageId, String page)=>'$recommendedFood?pageId=$pageId&page=$page';
   static String getCartPage()=>'$cartPage';
   static String getLoginPage()=>'$login';
+  static String getAddressPage()=>'$addAddress';
+  static String getPickAddressPage()=>'$pickAddressMap';
 
   static List<GetPage> routes = [
     GetPage(name: login, page: ()=>SignInPage(), transition: Transition.fade),
@@ -45,5 +51,10 @@ class RouteHelper {
         transition: Transition.fadeIn,
     ),
     GetPage(name: cartPage, page: () {return CartPage();}, transition: Transition.fadeIn),
+    GetPage(name: addAddress, page: () {return AddAddressPage();}, transition: Transition.fadeIn),
+    GetPage(name: pickAddressMap, page: (){
+      PickAddressMap _pickAddress = Get.arguments;
+      return _pickAddress;
+    }),
   ];
 }

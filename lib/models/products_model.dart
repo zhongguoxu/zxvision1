@@ -68,16 +68,16 @@ class ProductModel {
     this.typeId,
   });
   ProductModel.fromJson(Map<String, dynamic> json) {
-    id = int.parse(json['id']);
+    id = int.parse(json['id'].toString());
     name = json['name'];
     description = json['description'];
-    price = double.parse(json['price']);
-    stars = int.parse(json['stars']);
+    price = double.parse(json['price'].toString());
+    stars = int.parse(json['stars'].toString());
     img = json['img'];
     location = json['location'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    typeId = int.parse(json['type_id']);
+    typeId = int.parse(json['type_id'].toString());
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String,dynamic>();

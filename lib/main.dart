@@ -10,6 +10,7 @@ import 'package:zxvision1/pages/home/food_page_body.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
 import 'package:zxvision1/pages/splash/splash_page.dart';
 import 'package:zxvision1/routes/route_helper.dart';
+import 'package:zxvision1/utils/colors.dart';
 import 'controllers/cart_controller.dart';
 import 'controllers/recommended_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
           // home: SplashPage(),
           initialRoute: RouteHelper.getSplashPage(),
           getPages: RouteHelper.routes,
+          theme: ThemeData(
+            primaryColor: AppColors.mainColor,
+          ),
         );
       });
     },);

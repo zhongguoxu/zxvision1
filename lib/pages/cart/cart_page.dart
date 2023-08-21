@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zxvision1/base/no_data_page.dart';
 import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
+import 'package:zxvision1/controllers/location_controller.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
 import 'package:zxvision1/routes/route_helper.dart';
@@ -197,7 +198,12 @@ class CartPage extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   if(Get.find<AuthController>().userHasLoggedIn()) {
-                    cartController.addToHistory();
+                    // cartController.addToHistory();
+                    if (Get.find<LocationController>().addressList.isEmpty) {
+                      Get.toNamed(RouteHelper.getAddressPage());
+                    } else {
+                      Get.offNamed(RouteHelper.getInitial());
+                    }
                   } else {
                     Get.toNamed(RouteHelper.getLoginPage());
                   }

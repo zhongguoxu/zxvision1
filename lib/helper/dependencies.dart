@@ -7,10 +7,12 @@ import 'package:zxvision1/data/api/api_client.dart';
 import 'package:zxvision1/data/api/http_client.dart';
 import 'package:zxvision1/data/repository/auth_repo.dart';
 import 'package:zxvision1/data/repository/cart_repo.dart';
+import 'package:zxvision1/data/repository/location_repo.dart';
 import 'package:zxvision1/data/repository/popular_product_repo.dart';
 import 'package:zxvision1/data/repository/user_repo.dart';
 import 'package:zxvision1/utils/app_constants.dart';
 
+import '../controllers/location_controller.dart';
 import '../controllers/recommended_product_controller.dart';
 import '../controllers/user_controller.dart';
 import '../data/repository/recommended_product_repo.dart';
@@ -28,6 +30,7 @@ Future<void> init() async {
   Get.lazyPut(() => CartRepo(sharedPreferences: Get.find()));
   Get.lazyPut(() => AuthRepo(apiClient: Get.find(), httpClient: Get.find(), sharedPreferences: Get.find()));
   Get.lazyPut(() => UserRepo(apiClient: Get.find(), httpClient: Get.find(), sharedPreferences: Get.find()));
+  Get.lazyPut(() => LocationRepo(apiClient: Get.find(), httpClient: Get.find(), sharedPreferences: Get.find()));
 
   //controllers
   Get.lazyPut(() => PopularProductController(popularProductRepo: Get.find()));
@@ -35,6 +38,7 @@ Future<void> init() async {
   Get.lazyPut(() => CartController(cartRepo: Get.find()));
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
   Get.lazyPut(() => UserController(userRepo: Get.find()));
+  Get.lazyPut(() => LocationController(locationRepo: Get.find()));
 
 
 }

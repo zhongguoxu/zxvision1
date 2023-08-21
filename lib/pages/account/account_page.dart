@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zxvision1/base/custom_loader.dart';
 import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
+import 'package:zxvision1/controllers/location_controller.dart';
 import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/colors.dart';
@@ -18,6 +19,7 @@ class Accountpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool _userLoggedIn = Get.find<AuthController>().userHasLoggedIn();
+    print("user logged in?: "+_userLoggedIn.toString());
     if (_userLoggedIn) {
       Get.find<UserController>().getUserInfo();
     }
@@ -43,26 +45,44 @@ class Accountpage extends StatelessWidget {
                       //name
                       AccountWidget(
                         appIcon: AppIcon(icon: Icons.person, backgroundColor: AppColors.mainColor,iconColor: Colors.white, iconSize: Dimensions.height10*2.5, size: Dimensions.height10*5,),
-                        bigText: BigText(text: userController.userModel.name),
+                        bigText: BigText(text: userController.userModel!.name),
                       ),
                       SizedBox(height: Dimensions.height20,),
                       //phone
                       AccountWidget(
                         appIcon: AppIcon(icon: Icons.phone, backgroundColor: AppColors.yellowColor,iconColor: Colors.white, iconSize: Dimensions.height10*2.5, size: Dimensions.height10*5,),
-                        bigText: BigText(text: userController.userModel.phone),
+                        bigText: BigText(text: userController.userModel!.phone),
                       ),
                       SizedBox(height: Dimensions.height20,),
                       //email
                       AccountWidget(
                         appIcon: AppIcon(icon: Icons.email, backgroundColor: AppColors.yellowColor,iconColor: Colors.white, iconSize: Dimensions.height10*2.5, size: Dimensions.height10*5,),
-                        bigText: BigText(text: userController.userModel.email),
+                        bigText: BigText(text: userController.userModel!.email),
                       ),
                       SizedBox(height: Dimensions.height20,),
-                      //address
-                      AccountWidget(
-                        appIcon: AppIcon(icon: Icons.location_on, backgroundColor: AppColors.yellowColor,iconColor: Colors.white, iconSize: Dimensions.height10*2.5, size: Dimensions.height10*5,),
-                        bigText: BigText(text: "2733 Kirkland way"),
-                      ),
+                      GetBuilder<LocationController>(builder: (locationController) {
+                        if (_userLoggedIn && locationController.addressList.isEmpty) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.offNamed(RouteHelper.getAddressPage());
+                            },
+                            child: AccountWidget(
+                              appIcon: AppIcon(icon: Icons.location_on, backgroundColor: AppColors.yellowColor,iconColor: Colors.white, iconSize: Dimensions.height10*2.5, size: Dimensions.height10*5,),
+                              bigText: BigText(text: "Fill in your address"),
+                            ),
+                          );
+                        } else {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.offNamed(RouteHelper.getAddressPage());
+                            },
+                            child: AccountWidget(
+                              appIcon: AppIcon(icon: Icons.location_on, backgroundColor: AppColors.yellowColor,iconColor: Colors.white, iconSize: Dimensions.height10*2.5, size: Dimensions.height10*5,),
+                              bigText: BigText(text: "Your address"),
+                            ),
+                          );
+                        }
+                      }),
                       SizedBox(height: Dimensions.height20,),
                       //message
                       GestureDetector(
