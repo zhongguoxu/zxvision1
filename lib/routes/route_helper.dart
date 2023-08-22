@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:zxvision1/pages/address/add_address_page.dart';
+import 'package:zxvision1/pages/address/add_new_address_page.dart';
 import 'package:zxvision1/pages/address/pick_address_map.dart';
 import 'package:zxvision1/pages/auth/signin_page.dart';
 import 'package:zxvision1/pages/cart/cart_page.dart';
@@ -51,7 +52,7 @@ class RouteHelper {
         transition: Transition.fadeIn,
     ),
     GetPage(name: cartPage, page: () {return CartPage();}, transition: Transition.fadeIn),
-    GetPage(name: addAddress, page: () {return AddAddressPage();}, transition: Transition.fadeIn),
+    GetPage(name: addAddress, page: () {return AddNewAddressPage();}, transition: Transition.fadeIn),
     GetPage(name: pickAddressMap, page: (){
       PickAddressMap _pickAddress = Get.arguments;
       return _pickAddress;

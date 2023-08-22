@@ -26,4 +26,8 @@ class UserRepo {
       "password": UserModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ACCOUNT)!)).password,
     });
   }
+
+  Future<http.Response> getUserAddresses(String userId) async {
+    return await httpClient.postData(AppConstants.ADDRESS_LIST_URL, {"user_id": userId});
+  }
 }

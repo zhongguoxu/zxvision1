@@ -15,7 +15,7 @@ class AppTextField extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.radius30),
+          borderRadius: BorderRadius.circular(Dimensions.radius20),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -33,7 +33,7 @@ class AppTextField extends StatelessWidget {
           hintText: hintText,
           prefixIcon: Icon(icon, color: AppColors.yellowColor,),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimensions.radius30),
+              borderRadius: BorderRadius.circular(Dimensions.radius20),
               borderSide: BorderSide(
                 width: 1.0,
                 color: Colors.white,
@@ -47,9 +47,15 @@ class AppTextField extends StatelessWidget {
               )
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimensions.radius30),
+            borderRadius: BorderRadius.circular(Dimensions.radius20),
           ),
+          contentPadding: EdgeInsets.symmetric(vertical: Dimensions.height10*2.5),
         ),
+        style: TextStyle(
+          fontSize: Dimensions.font16,
+          overflow: TextOverflow.ellipsis,
+        ),
+        maxLines: 1,
       ),
     );
   }
