@@ -1,14 +1,13 @@
 import 'package:get/get.dart';
-import 'package:zxvision1/pages/address/add_address_page.dart';
 import 'package:zxvision1/pages/address/add_new_address_page.dart';
-import 'package:zxvision1/pages/address/pick_address_map.dart';
 import 'package:zxvision1/pages/auth/signin_page.dart';
 import 'package:zxvision1/pages/cart/cart_page.dart';
 import 'package:zxvision1/pages/food/popular_food_detail.dart';
 import 'package:zxvision1/pages/food/recommended_food_detail.dart';
 import 'package:zxvision1/pages/home/home_page.dart';
-import 'package:zxvision1/pages/home/main_food_page.dart';
 import 'package:zxvision1/pages/splash/splash_page.dart';
+
+import '../pages/address/pick_new_address_map.dart';
 
 class RouteHelper {
   static const String splashPage = "/splash-page";
@@ -54,7 +53,7 @@ class RouteHelper {
     GetPage(name: cartPage, page: () {return CartPage();}, transition: Transition.fadeIn),
     GetPage(name: addAddress, page: () {return AddNewAddressPage();}, transition: Transition.fadeIn),
     GetPage(name: pickAddressMap, page: (){
-      PickAddressMap _pickAddress = Get.arguments;
+      PickNewAddressMap _pickAddress = Get.arguments;
       return _pickAddress;
     }),
   ];

@@ -4,8 +4,8 @@ class AppConstants {
 
   // static const String BASE_URL = "http://mvs.bslmeiyu.com";
   static const String BASE_URL = "https://jayu.tech/shopping-app";
-  static const String POPULAR_PRODUCT_URI = "/api/v1/products/popular";
-  static const String RECOMMENDED_PRODUCT_URI = "/api/v1/products/recommended";
+  // static const String POPULAR_PRODUCT_URI = "/api/v1/products/popular";
+  // static const String RECOMMENDED_PRODUCT_URI = "/api/v1/products/recommended";
   static const String UPLOAD_URL = "/";
   static const String TOKEN = "";
   static const String PHONE = "";
@@ -40,6 +40,6 @@ class AppConstants {
   static const String TUTORIAL_BASE_URL = "https://jayu.tech";
   static const String ZONE_URL = TUTORIAL_BASE_URL + "/api/v1/config/get-zone-id";
 
-  static const String SEARCH_LOCATION_URL = TUTORIAL_BASE_URL + '';
-  static const String PLACE_DETAILS_URL = TUTORIAL_BASE_URL + '';
+  static const String SEARCH_LOCATION_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=';
+  static const String PLACE_DETAILS_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
 }

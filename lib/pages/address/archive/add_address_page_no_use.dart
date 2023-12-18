@@ -7,7 +7,7 @@ import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/location_controller.dart';
 import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/models/address_model.dart';
-import 'package:zxvision1/pages/address/pick_address_map.dart';
+import 'package:zxvision1/pages/address/archive/pick_address_map.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/app_constants.dart';
 import 'package:zxvision1/utils/colors.dart';
@@ -15,7 +15,7 @@ import 'package:zxvision1/utils/dimensions.dart';
 import 'package:zxvision1/widgets/app_text_field.dart';
 import 'package:zxvision1/widgets/big_text.dart';
 
-import '../../widgets/app_icon.dart';
+import '../../../widgets/app_icon.dart';
 
 class AddAddressPage extends StatefulWidget {
   const AddAddressPage({Key? key}) : super(key: key);

@@ -56,11 +56,19 @@ class LocationRepo {
     return await apiClient.getData('${AppConstants.ZONE_URL}?lat=$lat&lng=$lng');
   }
 
-  Future<Response> searchLocation(String text) async {
-    return await apiClient.getData('${AppConstants.SEARCH_LOCATION_URL}?search_text=$text');
+  // Future<Response> searchLocation(String text) async {
+  //   return await apiClient.getData('${AppConstants.SEARCH_LOCATION_URL}?search_text=$text');
+  // }
+
+  Future<http.Response> searchLocationByHttp(String text) async {
+    return await httpClient.getData(AppConstants.SEARCH_LOCATION_URL+text+'&key='+AppConstants.APP_API);
   }
 
   Future<Response> setLocation(String placeID) async {
     return await apiClient.getData('${AppConstants.PLACE_DETAILS_URL}?placeid=$placeID');
+  }
+
+  Future<http.Response> setLocationByHttp(String placeID) async {
+    return await httpClient.getData(AppConstants.PLACE_DETAILS_URL+placeID+'&key='+AppConstants.APP_API);
   }
 }

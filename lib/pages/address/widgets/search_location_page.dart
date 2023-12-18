@@ -4,6 +4,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:zxvision1/controllers/location_controller.dart';
+import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 import 'package:google_maps_webservice/src/places.dart';
 
@@ -48,10 +49,11 @@ class LocationDialogue extends StatelessWidget {
             ),
             // as we type, we get suggestions
             suggestionsCallback: (String pattern) async {
-              return await Get.find<LocationController>().searchLocation(context, pattern);
+              return await Get.find<UserController>().searchLocationByHttp(pattern);
             },
-            onSuggestionSelected: (suggestion) {
-
+            onSuggestionSelected: (Prediction suggestion) {
+              Get.find<UserController>().setLocationByHttp(suggestion.placeId!, suggestion.description!, mapController);
+              Get.back();
             },
             itemBuilder: (BuildContext context, Prediction suggestion) {
               return Padding(

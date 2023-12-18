@@ -15,18 +15,31 @@ class HttpClient extends GetConnect implements GetxService {
     };
   }
   Future<http.Response> postData(String uri, dynamic body) async {
-    print('http postData request with ' + uri + ' ' + body.toString());
+    // print('http postData request with ' + uri + ' ' + body.toString());
     try {
       final response = await http.post(
         Uri.parse(uri),
         headers: _mainHeaders,
         body: jsonEncode(body),
       );
-      print("http post response: "+response.statusCode.toString()+' '+response.body.toString());
+      // print("http post response: "+response.statusCode.toString()+' '+response.body.toString());
       return response;
     } catch (e) {
-      print("http post response: "+e.toString());
+      // print("http post response: "+e.toString());
       return http.Response("Http post request failed!", 1);
+    }
+  }
+  Future<http.Response> getData(String url) async {
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: _mainHeaders,
+      );
+      // print("http get response: "+response.statusCode.toString()+' '+response.body.toString());
+      return response;
+    } catch (e) {
+      // print("http get response: "+e.toString());
+      return http.Response("Http get request failed!", 1);
     }
   }
 }
