@@ -50,8 +50,14 @@ class _PickNewAddressMapState extends State<PickNewAddressMap> {
                       _mapController = mapController;
                     },
                     zoomControlsEnabled: false,
-                    onCameraMove: (CameraPosition cameraPosition) {_cameraPosition=cameraPosition;},
-                    onCameraIdle: () {Get.find<UserController>().updatePosition(_cameraPosition);},
+                    onCameraMove: (CameraPosition cameraPosition) {
+                      _cameraPosition=cameraPosition;
+                      print("zack camera2 is moving " + cameraPosition.target.latitude.toString());
+                      },
+                    onCameraIdle: () {
+                      print("zack camera2 stop moving " + _cameraPosition.target.latitude.toString() + ' ' +_initialPosition.longitude.toString());
+                      Get.find<UserController>().updatePosition(_cameraPosition);
+                      },
                   ),
                   Center(
                     // child: Image.asset("assets/image/pick_marker.png", height: 50, width: 50,),
@@ -108,6 +114,7 @@ class _PickNewAddressMapState extends State<PickNewAddressMap> {
                             LatLng(double.parse(userController.dynamicAddress!.latitude),double.parse(userController.dynamicAddress!.longituge)),
                             zoom: AddressConstants.zoom_in)));
                             // userController.setAddAddressData();
+                            userController.setUpdate(true);
                             Get.back();
                           } else { // TODO: from signup
 

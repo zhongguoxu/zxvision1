@@ -6,6 +6,7 @@ import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/pages/address/address_constants.dart';
 import 'package:zxvision1/pages/address/pick_new_address_map.dart';
 import 'package:zxvision1/routes/route_helper.dart';
+import 'package:zxvision1/utils/app_constants.dart';
 import 'package:zxvision1/utils/colors.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 import 'package:zxvision1/widgets/app_text_field.dart';
@@ -111,8 +112,13 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                           },
                         onCameraIdle: () {
                           print("zack camera stop moving " + _cameraPosition.target.latitude.toString() + ' ' +_initialPosition.longitude.toString());
-                          userController.updatePosition(_cameraPosition);
-                          },
+                          if (userController.updateAddress) { // this branch is used to update the delivery address when the address in Pick page changes.
+                            userController.updatePosition(CameraPosition(target: LatLng(double.parse(userController.dynamicAddress!.latitude), double.parse(userController.dynamicAddress!.longituge)), zoom: AddressConstants.zoom_in));
+                            userController.setUpdate(false);
+                          } else {
+                            userController.updatePosition(_cameraPosition);
+                          }
+                        },
                       ),
                       Center(
                         // child: Image.asset("assets/image/pick_marker.png", height: 50, width: 50,),

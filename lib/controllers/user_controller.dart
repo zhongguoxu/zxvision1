@@ -20,6 +20,8 @@ class UserController extends GetxController implements GetxService {
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+  bool _updateAddress = false;
+  bool get updateAddress => _updateAddress;
   UserModel? _userModel;
   UserModel? get userModel=>_userModel;
 
@@ -154,9 +156,8 @@ class UserController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  // setAddAddressData() {
-  //   // print("location controller @ setAddAddressData");
-  //   _dynamicAddress=_currentAddress;
-  //   update();
-  // }
+  setUpdate(bool updateAddress) {
+    _updateAddress=updateAddress;
+    update();
+  }
 }
