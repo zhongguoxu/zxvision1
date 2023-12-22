@@ -87,8 +87,12 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                       GoogleMap(
                         initialCameraPosition: CameraPosition(target: _initialPosition, zoom: AddressConstants.zoom_in),
                         onMapCreated: (GoogleMapController controller) {
-                          // userController.setMapController(controller);
+                          print("zack created the google map with: "+_initialPosition.latitude.toString());
                           _mapController = controller;
+                          _mapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+                              target:
+                              _initialPosition,
+                              zoom: AddressConstants.zoom_in)));
                         },
                         onTap: (_) {
                           Get.toNamed(
@@ -106,8 +110,9 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                           _cameraPosition=cameraPosition;
                           },
                         onCameraIdle: () {
-                          print("zack camera stop moving " + _cameraPosition.target.latitude.toString() + ' ' +_initialPosition.latitude.toString());
-                          userController.updatePosition(_cameraPosition);},
+                          print("zack camera stop moving " + _cameraPosition.target.latitude.toString() + ' ' +_initialPosition.longitude.toString());
+                          userController.updatePosition(_cameraPosition);
+                          },
                       ),
                       Center(
                         // child: Image.asset("assets/image/pick_marker.png", height: 50, width: 50,),

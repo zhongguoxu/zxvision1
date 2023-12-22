@@ -106,7 +106,6 @@ class _PickNewAddressMapState extends State<PickNewAddressMap> {
                             widget.googleMapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
                                 target:
                             LatLng(double.parse(userController.dynamicAddress!.latitude),double.parse(userController.dynamicAddress!.longituge)),
-                                // LatLng(double.parse(userController.currentAddress!.latitude),double.parse(userController.currentAddress!.longituge)),
                             zoom: AddressConstants.zoom_in)));
                             // userController.setAddAddressData();
                             Get.back();
