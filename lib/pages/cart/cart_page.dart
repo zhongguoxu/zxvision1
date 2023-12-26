@@ -6,6 +6,7 @@ import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
 import 'package:zxvision1/controllers/location_controller.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
+import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/app_constants.dart';
@@ -202,7 +203,8 @@ class CartPage extends StatelessWidget {
                     if (Get.find<LocationController>().addressList.isEmpty) {
                       Get.toNamed(RouteHelper.getAddressPage());
                     } else {
-                      Get.offNamed(RouteHelper.getInitial());
+                      // Get.offNamed(RouteHelper.getInitial());
+                      Get.toNamed(RouteHelper.getPaymentPage("100127", Get.find<UserController>().userModel!.id!));
                     }
                   } else {
                     Get.toNamed(RouteHelper.getLoginPage());
