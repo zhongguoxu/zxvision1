@@ -16,8 +16,8 @@ import 'controllers/cart_controller.dart';
 import 'controllers/recommended_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:square_in_app_payments/models.dart';
-import 'package:square_in_app_payments/in_app_payments.dart';
+// import 'package:square_in_app_payments/models.dart';
+// import 'package:square_in_app_payments/in_app_payments.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
