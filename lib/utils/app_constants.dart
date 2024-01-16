@@ -1,6 +1,7 @@
 class AppConstants {
   static const String APP_NAME = "DBFood";
   static const int APP_VERSION = 1;
+  static const double TAX = 0.05;
 
   // static const String BASE_URL = "http://mvs.bslmeiyu.com";
   static const String BASE_URL = "https://jayu.tech/shopping-app";
@@ -42,4 +43,7 @@ class AppConstants {
 
   static const String SEARCH_LOCATION_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=';
   static const String PLACE_DETAILS_URL = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=';
+
+  // Orders
+  static const String PLACE_ORDER_URL = BASE_URL + "/backend/order/Place_Order.php";
 }

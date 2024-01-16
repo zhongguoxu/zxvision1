@@ -138,4 +138,46 @@ class CartController extends GetxController {
     cartRepo.clearCartHistory();
     update();
   }
+
+  String compressCartIntoString(List<CartModel> cartList) {
+    var proStr = "";
+    var proStrForRestaurant = "";
+    var kk = -1;
+    for (var cart in cartList) {
+      kk += 1;
+      proStr += cart.product!.name!;
+      proStrForRestaurant += cart.product!.name!;
+      proStr += ",";
+      proStrForRestaurant += ",";
+      proStr += cart.price!.toString();
+      proStrForRestaurant += cart.price!.toStringAsFixed(2).toString();
+//                if (cart.product.Product_Price_On_Sale.toDouble() > 0.0) {
+//                    proStrForRestaurant += String.format("%.2f", cart.price.toDouble() - addOn)
+//                } else {
+//                    val addOn = cart.product.Product_Price.toDouble() - cart.product.Product_Store_Price.toDouble()
+//                    proStrForRestaurant += String.format("%.2f", cart.price.toDouble() - addOn)
+//                }
+      proStr += ",";
+      proStrForRestaurant += ",";
+      proStr += cart.quantity!.toString();
+      proStrForRestaurant += cart.quantity!.toString();
+      // proStr += ",";
+      // proStrForRestaurant += ",";
+      // proStr += cart.detail
+      // proStrForRestaurant += cart.detail
+      if (kk < (cartList.length - 1)) {
+        proStr += ";";
+        proStrForRestaurant += ";";
+      }
+    }
+    return proStr;
+  }
+
+  double calculateSubtotal(List<CartModel> cartList) {
+    var subTotal = 0.0;
+    for (var cart in cartList) {
+      subTotal += cart.quantity! * cart.product!.price!;
+    }
+    return subTotal;
+  }
 }

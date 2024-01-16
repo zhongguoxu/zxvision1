@@ -11,6 +11,8 @@ import 'package:zxvision1/pages/address/address_constants.dart';
 import '../models/address_model.dart';
 import 'package:google_maps_webservice/src/places.dart';
 
+import '../models/signup_body_model.dart';
+
 class UserController extends GetxController implements GetxService {
   final UserRepo userRepo;
 
@@ -147,6 +149,7 @@ class UserController extends GetxController implements GetxService {
       await getUserAddressList(_userModel!.id);
       // String message = response.body
       responseModel = ResponseModel(true, "Successful");
+      await saveUserAddress(addressModel);
     } else {
       // print("couldn't save the address");
       responseModel = ResponseModel(false, "Fail");
@@ -156,8 +159,76 @@ class UserController extends GetxController implements GetxService {
     return responseModel;
   }
 
+  Future<bool> saveUserAddress(AddressModel addressModel) async {
+    String userAddress = jsonEncode(addressModel.toJson());
+    return await userRepo.saveUserAddress(userAddress);
+  }
+
+  AddressModel getUserAddress() {
+    // print("location controller @ getUserAddress");
+    late AddressModel _addressModel;
+    // _getAddress = jsonDecode(userRepo.getUserAddress());
+    try {
+      _addressModel = AddressModel.fromJson(jsonDecode(userRepo.getUserAddress()));
+    } catch (e) {
+      print(e);
+    }
+    return _addressModel;
+  }
+
   setUpdate(bool updateAddress) {
     _updateAddress=updateAddress;
     update();
+  }
+
+  Future<ResponseModel> registration(SignUpBody signUpBody) async {
+    _isLoading = true;
+    update();
+    http.Response response = await userRepo.registration(signUpBody);
+    late ResponseModel responseModel;
+    if (response.statusCode == 200) {
+      userRepo.saveUserAccount(UserModel.fromJson(jsonDecode(response.body)));
+      _userModel = UserModel.fromJson(jsonDecode(response.body));
+      responseModel = ResponseModel(true, "Registration successfully");
+      print("registration successfully");
+    } else {
+      responseModel = ResponseModel(false, "Registration fails");
+      print("registration fails");
+    }
+    _isLoading = false;
+    update();
+    return responseModel;
+  }
+
+  Future<ResponseModel> login(String email, String password) async {
+    _isLoading = true;
+    update();
+    http.Response response = await userRepo.login(email, password);
+    late ResponseModel responseModel;
+    if (response.statusCode == 200) {
+      userRepo.saveUserAccount(UserModel.fromJson(jsonDecode(response.body)));
+      _userModel = UserModel.fromJson(jsonDecode(response.body));
+      responseModel = ResponseModel(true, "Login successfully");
+      print("login successfully");
+    } else {
+      responseModel = ResponseModel(false, "Login fails");
+      print("login fails");
+    }
+    _isLoading = false;
+    update();
+    return responseModel;
+  }
+
+  bool userHasLoggedIn() {
+    return userRepo.userHasLoggedIn();
+  }
+
+  bool clearSharedData() {
+    userRepo.clearSharedData();
+    return true;
+  }
+
+  UserModel? getUserModelFromLocal() {
+    return userRepo.getUserAccount();
   }
 }

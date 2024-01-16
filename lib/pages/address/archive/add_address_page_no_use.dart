@@ -38,7 +38,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
   @override void initState() {
     // TODO: implement initState
     super.initState();
-    _isLogged = Get.find<AuthController>().userHasLoggedIn();
+    _isLogged = Get.find<UserController>().userHasLoggedIn();
     if (_isLogged&&Get.find<UserController>().userModel == null) {
       Get.find<UserController>().getUserInfo();
     }

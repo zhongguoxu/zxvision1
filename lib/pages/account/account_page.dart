@@ -18,7 +18,7 @@ class Accountpage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _userLoggedIn = Get.find<AuthController>().userHasLoggedIn();
+    bool _userLoggedIn = Get.find<UserController>().userHasLoggedIn();
     print("user logged in?: "+_userLoggedIn.toString());
     if (_userLoggedIn) {
       Get.find<UserController>().getUserInfo();
@@ -87,8 +87,8 @@ class Accountpage extends StatelessWidget {
                       //message
                       GestureDetector(
                         onTap: () {
-                          if (Get.find<AuthController>().userHasLoggedIn()) {
-                            Get.find<AuthController>().clearSharedData();
+                          if (Get.find<UserController>().userHasLoggedIn()) {
+                            Get.find<UserController>().clearSharedData();
                             Get.find<CartController>().clearCartHistory();
                             Get.find<CartController>().clear();
                             Get.toNamed(RouteHelper.getLoginPage());

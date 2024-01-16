@@ -9,6 +9,8 @@ import 'package:zxvision1/models/user_model.dart';
 import 'package:zxvision1/utils/app_constants.dart';
 import 'package:http/http.dart' as http;
 
+import '../../models/signup_body_model.dart';
+
 class UserRepo {
   final ApiClient apiClient;
   final HttpClient httpClient;
@@ -58,5 +60,40 @@ class UserRepo {
     newJson.putIfAbsent("created_at", () => DateTime.now().toString());
     newJson.putIfAbsent("updated_at", () => DateTime.now().toString());
     return await httpClient.postData(AppConstants.ADD_USER_ADDRESS_URL, newJson);
+  }
+
+  Future<bool> saveUserAddress(String userAddress) async {
+    return await sharedPreferences.setString(AppConstants.USER_ADDRESS, userAddress);
+  }
+
+  String getUserAddress() {
+    print("user address from shared preferences " + sharedPreferences.getString(AppConstants.USER_ADDRESS)!);
+    return sharedPreferences.getString(AppConstants.USER_ADDRESS)??"";
+  }
+
+  Future<http.Response> registration(SignUpBody signUpBody) async {
+    return await httpClient.postData(AppConstants.SIGN_UP_URL, signUpBody.toJson());
+  }
+
+  saveUserAccount(UserModel userModel) async {
+    return await sharedPreferences.setString(AppConstants.USER_ACCOUNT, jsonEncode(userModel));
+  }
+
+  Future<http.Response> login(String email, String password) async {
+    return await httpClient.postData(AppConstants.LOGIN_URL, {"email": email, "password": password});
+  }
+
+  bool userHasLoggedIn() {
+    return sharedPreferences.containsKey(AppConstants.USER_ACCOUNT);
+  }
+
+  bool clearSharedData() {
+    sharedPreferences.remove(AppConstants.USER_ACCOUNT);
+    return true;
+  }
+
+  UserModel? getUserAccount() {
+    var accountString = sharedPreferences.getString(AppConstants.USER_ACCOUNT);
+    return accountString != null ? jsonDecode(accountString) as UserModel : null;
   }
 }

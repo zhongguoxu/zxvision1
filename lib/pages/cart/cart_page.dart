@@ -5,7 +5,10 @@ import 'package:zxvision1/base/no_data_page.dart';
 import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
 import 'package:zxvision1/controllers/location_controller.dart';
+import 'package:zxvision1/controllers/order_controller.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
+import 'package:zxvision1/controllers/user_controller.dart';
+import 'package:zxvision1/models/place_order_model.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/app_constants.dart';
@@ -19,6 +22,35 @@ import '../../controllers/recommended_product_controller.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
+
+  void _placeOrder(UserController userController, CartController cartController) {
+    print("zack can place order");
+    var location = userController.addressList.last;
+    var cart = cartController.getItems;
+    var user = Get.find<UserController>().userModel;
+    var products = Get.find<CartController>().compressCartIntoString(cart);
+    var subTotal = Get.find<CartController>().calculateSubtotal(cart);
+    PlaceOrderBody placeOrder = PlaceOrderBody(
+      products: products,
+      subTotal: subTotal.toStringAsFixed(2),
+      tax: (subTotal*AppConstants.TAX).toStringAsFixed(2),
+      total: (subTotal*(1+AppConstants.TAX)).toStringAsFixed(2),
+      createdTime: 'Temp',
+      paymentMethod: 'Temp',
+      customerAddress: location.address,
+      customerName: user!.name,
+      customerPhone: user!.phone,
+      orderId: 'Temp',
+      orderStatus: 'New',
+      tips: '0.0',
+      remarks: "customer remarks",
+
+    );
+    Get.find<OrderController>().placeOrder(
+        placeOrder,
+        _callBack
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,13 +229,68 @@ class CartPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  if(Get.find<AuthController>().userHasLoggedIn()) {
-                    // cartController.addToHistory();
-                    if (Get.find<LocationController>().addressList.isEmpty) {
-                      Get.toNamed(RouteHelper.getAddressPage());
+                  if(Get.find<UserController>().userHasLoggedIn()) {
+                    // var canPlaceOrder = false;
+                    if (Get.find<UserController>().userModel == null) {
+                      Get.find<UserController>().getUserInfo().then((_) {
+                        if (Get.find<UserController>().addressList.isEmpty) {
+                          Get.find<UserController>().getUserAddressList(Get.find<UserController>().userModel!.id).then((_) {
+                            if (Get.find<UserController>().addressList.isEmpty) {
+                              Get.toNamed(RouteHelper.getAddressPage());
+                            } else {
+                              print("zack this is true 1");
+                              _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                            }
+                          });
+                        } else {
+                          _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                        }
+                      });
                     } else {
-                      Get.offNamed(RouteHelper.getInitial());
+                      if (Get.find<UserController>().addressList.isEmpty) {
+                        Get.find<UserController>().getUserAddressList(Get.find<UserController>().userModel!.id).then((_) {
+                          if (Get.find<UserController>().addressList.isEmpty) {
+                            Get.toNamed(RouteHelper.getAddressPage());
+                          } else {
+                            print("zack this is true 2");
+                            _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                          }
+                        });
+                      } else {
+                        print("zack this is true 3");
+                        _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                      }
                     }
+                    // if (canPlaceOrder) {
+                    //   print("zack can place order");
+                    //   var location = Get.find<UserController>().getUserAddress();
+                    //   var cart = Get.find<CartController>().getItems;
+                    //   var user = Get.find<UserController>().userModel;
+                    //   var products = Get.find<CartController>().compressCartIntoString(cart);
+                    //   var subTotal = Get.find<CartController>().calculateSubtotal(cart);
+                    //   PlaceOrderBody placeOrder = PlaceOrderBody(
+                    //     products: products,
+                    //     subTotal: subTotal.toStringAsFixed(2),
+                    //     tax: (subTotal*AppConstants.TAX).toStringAsFixed(2),
+                    //     total: (subTotal*(1+AppConstants.TAX)).toStringAsFixed(2),
+                    //     createdTime: 'Temp',
+                    //     paymentMethod: 'Temp',
+                    //     customerAddress: location.address,
+                    //     customerName: user!.name,
+                    //     customerPhone: user!.phone,
+                    //     orderId: 'Temp',
+                    //     orderStatus: 'New',
+                    //     tips: '0.0',
+                    //     remarks: "customer remarks",
+                    //
+                    //   );
+                    //   Get.find<OrderController>().placeOrder(
+                    //       placeOrder,
+                    //       _callBack
+                    //   );
+                    // } else {
+                    //   print("zack can is false now");
+                    // }
                   } else {
                     Get.toNamed(RouteHelper.getLoginPage());
                   }
@@ -222,5 +309,14 @@ class CartPage extends StatelessWidget {
         );
       },),
     );
+  }
+
+  void _callBack(bool isSuccessful, String message, String orderId) {
+    if (isSuccessful) {
+      print("zack successful callback");
+      // Get.offNamed(RouteHelper.getPaymentPage());
+    } else {
+      print("zack fails callback");
+    }
   }
 }

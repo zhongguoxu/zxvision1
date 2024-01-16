@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:zxvision1/base/custom_loader.dart';
 import 'package:zxvision1/base/show_custom_snackbar.dart';
 import 'package:zxvision1/controllers/auth_controller.dart';
+import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/models/signup_body_model.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/colors.dart';
@@ -26,7 +27,7 @@ class SignUpPage extends StatelessWidget {
       'f.png',
       'g.png',
     ];
-    void _registration(AuthController authController) {
+    void _registration(UserController userController) {
       String name = nameController.text.trim();
       String phone = phoneController.text.trim();
       String email = emailController.text.trim();
@@ -51,7 +52,7 @@ class SignUpPage extends StatelessWidget {
             password: password,
             created_at: DateTime.now().toString(),
         );
-        authController.registration(signUpBody).then((status) {
+        userController.registration(signUpBody).then((status) {
           if (status.isSuccess) {
             Get.offNamed(RouteHelper.getInitial());
           } else {
@@ -62,8 +63,8 @@ class SignUpPage extends StatelessWidget {
     }
     return Scaffold(
       backgroundColor: Colors.white,
-      body: GetBuilder<AuthController>(builder: (_authController) {
-        return !_authController.isLoading ? SingleChildScrollView(
+      body: GetBuilder<UserController>(builder: (_userController) {
+        return !_userController.isLoading ? SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
@@ -107,7 +108,7 @@ class SignUpPage extends StatelessWidget {
               // sign up btn
               GestureDetector(
                 onTap: () {
-                  _registration(_authController);
+                  _registration(_userController);
                 },
                 child: Container(
                   width: Dimensions.screenWidth/2,

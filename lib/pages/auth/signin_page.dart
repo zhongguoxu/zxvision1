@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/pages/auth/signup_page.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/colors.dart';
@@ -21,7 +22,7 @@ class SignInPage extends StatelessWidget {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
 
-    void _login(AuthController authController) {
+    void _login(UserController userController) {
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
       if (email.isEmpty) {
@@ -33,7 +34,7 @@ class SignInPage extends StatelessWidget {
       } else if (password.length < 6) {
         showCustomSnackBar("Password can not be less than six characters", title: "Password");
       } else {
-        authController.login(email, password).then((status) {
+        userController.login(email, password).then((status) {
           if (status.isSuccess) {
             Get.toNamed(RouteHelper.getInitial());
           } else {
@@ -44,7 +45,7 @@ class SignInPage extends StatelessWidget {
     }
     return Scaffold(
       backgroundColor: Colors.white,
-      body: GetBuilder<AuthController>(builder: (authController) {
+      body: GetBuilder<UserController>(builder: (userController) {
         return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
@@ -106,7 +107,7 @@ class SignInPage extends StatelessWidget {
               // sign in btn
               GestureDetector(
                 onTap: () {
-                  _login(authController);
+                  _login(userController);
                 },
                 child: Container(
                   width: Dimensions.screenWidth/2,
