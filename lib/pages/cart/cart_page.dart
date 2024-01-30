@@ -314,9 +314,13 @@ class CartPage extends StatelessWidget {
   void _callBack(bool isSuccessful, String message, String orderId) {
     if (isSuccessful) {
       print("zack successful callback");
-      // Get.offNamed(RouteHelper.getPaymentPage());
+      Get.find<CartController>().clear();
+      Get.find<CartController>().removeCartSharedPreference();
+      Get.find<CartController>().addToHistory();
+      Get.offNamed(RouteHelper.getOrderSuccessPage(orderId, 'success'));
     } else {
       print("zack fails callback");
+      Get.offNamed(RouteHelper.getOrderSuccessPage(orderId, 'fail'));
     }
   }
 }

@@ -46,4 +46,5 @@ class AppConstants {
 
   // Orders
   static const String PLACE_ORDER_URL = BASE_URL + "/backend/order/Place_Order.php";
+  static const String GET_ORDER_LIST_URL = BASE_URL + "/backend/order/Get_Order_List.php";
 }

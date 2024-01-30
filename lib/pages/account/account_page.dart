@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/base/custom_app_bar.dart';
 import 'package:zxvision1/base/custom_loader.dart';
 import 'package:zxvision1/controllers/auth_controller.dart';
 import 'package:zxvision1/controllers/cart_controller.dart';
@@ -24,10 +25,8 @@ class Accountpage extends StatelessWidget {
       Get.find<UserController>().getUserInfo();
     }
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.mainColor,
-        title: BigText(text: "Profile", size: 24, color: Colors.white,),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: "Profile",
       ),
       body: GetBuilder<UserController>(builder: (userController) {
         return _userLoggedIn ? (userController.isLoading ?

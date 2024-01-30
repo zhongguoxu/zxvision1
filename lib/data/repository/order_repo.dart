@@ -11,10 +11,10 @@ class OrderRepo {
 
   Future<http.Response> placeOrder(PlaceOrderBody placeOrderBody) async {
     var newJson = placeOrderBody.toJson();
-    print(newJson);
-    // newJson.putIfAbsent("user_id", () => UserModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.USER_ACCOUNT)!)).id);
-    // newJson.putIfAbsent("created_at", () => DateTime.now().toString());
-    // newJson.putIfAbsent("updated_at", () => DateTime.now().toString());
     return await httpClient.postData(AppConstants.PLACE_ORDER_URL, newJson);
+  }
+
+  Future <http.Response> getOrderList(String phone) async {
+    return await httpClient.postData(AppConstants.GET_ORDER_LIST_URL, {"phone": phone});
   }
 }

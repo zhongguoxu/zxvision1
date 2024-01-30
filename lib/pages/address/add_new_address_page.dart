@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:zxvision1/base/custom_app_bar.dart';
 import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/pages/address/address_constants.dart';
 import 'package:zxvision1/pages/address/pick_new_address_map.dart';
@@ -60,9 +61,8 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AddressConstants.title),
-        backgroundColor: AppColors.mainColor,
+      appBar: CustomAppBar(
+        title: "Address",
       ),
       body: GetBuilder<UserController>(builder: (userController) {
         // you can change the value of the variables used in the widget

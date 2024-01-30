@@ -1,14 +1,42 @@
-import 'package:zxvision1/models/cart_model.dart';
-// total: (subTotal*(1+AppConstants.TAX)).toStringAsFixed(2),
-// createdTime: 'Temp',
-// paymentMethod: 'Temp',
-// customerAddress: location.address,
-// customerName: user!.name,
-// customerPhone: user!.phone,
-// orderId: 'Temp',
-// orderStatus: 'Temp',
-// tips: 'Temp',
-// remarks: "Not about the food",
+class PlaceOrderList {
+  late List<PlaceOrderBody> _placeOrders;
+  List<PlaceOrderBody> get placeOrders=>_placeOrders; // for public use
+
+  PlaceOrderList({required placeOrders}) {
+    this._placeOrders = placeOrders;
+  }
+
+  PlaceOrderList.fromJson(List<dynamic> json) {
+    _placeOrders = <PlaceOrderBody>[];
+    json.forEach((v) {
+      _placeOrders.add(new PlaceOrderBody.fromJson(v));
+    });
+  }
+
+// Product.fromJson(Map<String, dynamic> json) {
+//   // _totalSize=json['total_size'];
+//   // _typeId=json['type_id'];
+//   // _offset=json['offset'];
+//   if (json['products'] != null) {
+//     _products = <ProductModel>[];
+//     json['products'].forEach((v) {
+//       _products.add(new ProductModel.fromJson(v));
+//     });
+//   }
+// }
+
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String,dynamic>();
+//   data['total_size'] = this.totalSize;
+//   data['type_id'] = this.typeId;
+//   data['offset'] = this.offset;
+//   if (this.products != null) {
+//     data['products'] = this.products!.map((e) => e.toJson()).toList();
+//   }
+//   return data;
+// }
+}
+
 class PlaceOrderBody {
   // List<CartModel>? _cart;
   late String _products;

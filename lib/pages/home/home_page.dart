@@ -5,6 +5,7 @@ import 'package:zxvision1/pages/account/account_page.dart';
 import 'package:zxvision1/pages/auth/signup_page.dart';
 import 'package:zxvision1/pages/cart/cart_history.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
+import 'package:zxvision1/pages/order/order_page.dart';
 import 'package:zxvision1/utils/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   List pages=[
     MainFoodPage(),
-    SignUpPage(),
+    OrderPage(),
     CartHistory(),
     Accountpage(),
   ];
