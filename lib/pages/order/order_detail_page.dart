@@ -9,7 +9,6 @@ import 'package:zxvision1/utils/colors.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 import 'package:zxvision1/widgets/big_text.dart';
 import 'package:get/get.dart';
-import 'package:zxvision1/widgets/small_text.dart';
 
 class OrderDetailPage extends StatelessWidget {
   final int orderIndex;
@@ -37,9 +36,14 @@ class OrderDetailPage extends StatelessWidget {
               SizedBox(
                 height: Dimensions.height10,
               ),
-              Container(
-                child: Text(thisOrder.orderStatus),
-              ),
+              isCurrent == "current" ? Container(
+                height: Dimensions.height20*2,
+                child: Text(
+                  orderController.getOrderStatus(thisOrder.orderStatus),
+                  style: TextStyle(fontSize: Dimensions.font20, color: Colors.red),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ) : SizedBox(),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,

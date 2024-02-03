@@ -107,4 +107,20 @@ class OrderController extends GetxController implements GetxService {
     _orderNote = note;
     update();
   }
+
+  String getOrderStatus(String status) {
+    if (status == "New") {
+      return "Waiting for merchant to process";
+    }
+    if (status == "Processing") {
+      return "Merchant is processing";
+    }
+    if (status == "Ready") {
+      return "This order is ready for pick up / delivery";
+    }
+    if (status == "Delivery") {
+      return "This order is in delivery";
+    }
+    return status;
+  }
 }
