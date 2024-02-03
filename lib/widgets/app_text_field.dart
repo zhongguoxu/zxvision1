@@ -8,7 +8,8 @@ class AppTextField extends StatelessWidget {
   final TextEditingController textController;
   final String hintText;
   final IconData icon;
-  const AppTextField({Key? key, required this.textController, required this.hintText, required this.icon}) : super(key: key);
+  final bool maxLines;
+  const AppTextField({Key? key, required this.textController, required this.hintText, required this.icon, this.maxLines=false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class AppTextField extends StatelessWidget {
           fontSize: Dimensions.font16,
           overflow: TextOverflow.ellipsis,
         ),
-        maxLines: 1,
+        maxLines: maxLines ? 3:1,
       ),
     );
   }

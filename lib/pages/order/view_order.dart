@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zxvision1/base/custom_loader.dart';
 import 'package:zxvision1/controllers/order_controller.dart';
 import 'package:zxvision1/models/place_order_model.dart';
+import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/colors.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 
@@ -23,7 +24,7 @@ class ViewOrder extends StatelessWidget {
             }
           } else {
             if (orderController.historyOrderList.isNotEmpty) {
-              orderList = orderController.currentOrderList.reversed.toList();
+              orderList = orderController.historyOrderList.reversed.toList();
             }
           }
           return SizedBox(
@@ -41,11 +42,17 @@ class ViewOrder extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Text("order ID:"),
-                                      SizedBox(width: Dimensions.width10/2,),
-                                      Text(orderList[index].orderId)
+                                      Row(
+                                        children: [
+                                          Text("order ID:", style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold)),
+                                          SizedBox(width: Dimensions.width10/2,),
+                                          Text(orderList[index].orderId, style: TextStyle(fontSize: Dimensions.font16, fontWeight: FontWeight.bold),)
+                                        ],
+                                      ),
+                                      Text(orderList[index].createdTime, style: TextStyle(fontSize: Dimensions.font16, color: Theme.of(context).disabledColor)),
                                     ],
                                   ),
                                   Column(
@@ -68,7 +75,7 @@ class ViewOrder extends StatelessWidget {
                                       ),
                                       SizedBox(height: Dimensions.height10/2,),
                                       InkWell(
-                                        onTap: () => null,
+                                        onTap: () => Get.toNamed(RouteHelper.getOrderDetailPage(index, isCurrent ? "current":"history")),
                                         child: Container(
                                           // margin: EdgeInsets.symmetric(horizontal: Dimensions.width10/2),
                                           height: Dimensions.height30,

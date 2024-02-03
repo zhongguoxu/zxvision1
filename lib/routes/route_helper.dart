@@ -5,6 +5,7 @@ import 'package:zxvision1/pages/cart/cart_page.dart';
 import 'package:zxvision1/pages/food/popular_food_detail.dart';
 import 'package:zxvision1/pages/food/recommended_food_detail.dart';
 import 'package:zxvision1/pages/home/home_page.dart';
+import 'package:zxvision1/pages/order/order_detail_page.dart';
 import 'package:zxvision1/pages/payment/order_success_page.dart';
 import 'package:zxvision1/pages/splash/splash_page.dart';
 
@@ -20,6 +21,7 @@ class RouteHelper {
   static const String addAddress="/add-address";
   static const String pickAddressMap="/pick-address";
   static const String orderSuccess="/order-success";
+  static const String orderDetail="/order-detail";
 
   static String getSplashPage()=>'$splashPage';
   static String getInitial()=>'$initial';
@@ -30,6 +32,7 @@ class RouteHelper {
   static String getAddressPage()=>'$addAddress';
   static String getPickAddressPage()=>'$pickAddressMap';
   static String getOrderSuccessPage(String orderID, String status)=>'$orderSuccess?id=$orderID&status=$status';
+  static String getOrderDetailPage(int orderIndex, String isCurrent)=>'$orderDetail?orderIndex=$orderIndex&isCurrent=$isCurrent';
 
   static List<GetPage> routes = [
     GetPage(name: login, page: ()=>SignInPage(), transition: Transition.fade),
@@ -62,5 +65,9 @@ class RouteHelper {
     GetPage(name: orderSuccess, page: ()=>OrderSuccessPage(
         orderId: Get.parameters['id']!,
         status: Get.parameters['status'].toString().contains("success")?1:0)),
+    GetPage(name: orderDetail, page: ()=>OrderDetailPage(
+      orderIndex: int.parse(Get.parameters['orderIndex']!),
+      isCurrent: Get.parameters['isCurrent']!,
+    )),
   ];
 }

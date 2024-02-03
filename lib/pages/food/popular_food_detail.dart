@@ -62,7 +62,6 @@ class PopularFoodDetail extends StatelessWidget {
                         } else {
                           Get.toNamed(RouteHelper.getInitial());
                         }
-                        
                       },
                       child: AppIcon(icon: Icons.arrow_back_ios),
                   ),
