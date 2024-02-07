@@ -13,6 +13,18 @@ class CartController extends GetxController {
   Map<int, CartModel> get items=>_items;
   List<CartModel> storageItems=[]; // only for storage and sharedpreference
 
+  int _tipIndex = 0;
+  int get tipIndex => _tipIndex;
+  double _tipAmount = 3;
+  double get tipAmount => _tipAmount;
+
+  int _paymentIndex = 0;
+  int get paymentIndex => _paymentIndex;
+  String _deliveryType = "delivery";
+  String get deliveryType => _deliveryType;
+  String _orderNote = "";
+  String get orderNote => _orderNote;
+
   void addItem(ProductModel product, int quantity) {
     var totalQuantity=0;
     if (_items.containsKey(product.id!)) {
@@ -104,7 +116,6 @@ class CartController extends GetxController {
 
   set setCart(List<CartModel> items) {
     storageItems = items;
-    print("length is "+storageItems.length.toString());
     for(int i=0; i<storageItems.length; i++) {
       _items.putIfAbsent(storageItems[i].product!.id!, () => storageItems[i]);
     }
@@ -172,5 +183,47 @@ class CartController extends GetxController {
       subTotal += cart.quantity! * cart.product!.price!;
     }
     return subTotal;
+  }
+
+  void setPaymentIndex(int index) {
+    _paymentIndex = index;
+    update();
+  }
+
+  void setDeliveryType(String type) {
+    _deliveryType = type;
+    update();
+  }
+
+  void setOrderNote(String note) {
+    _orderNote = note;
+    update();
+  }
+
+  void setTipIndex(int index) {
+    _tipIndex = index;
+    update();
+  }
+
+  void setTipAmount({int index=0, double customTip=-1}) {
+    if (customTip >= 0) {
+      _tipAmount = customTip;
+    } else {
+      if (index == 0) {
+        _tipAmount = 3.0;
+      }
+      if (index == 1) {
+        _tipAmount = 5.0;
+      }
+      if (index == 2) {
+        _tipAmount = 10.0;
+      }
+    }
+    print("zack new tip amount is "+_tipAmount.toString());
+    update();
+  }
+
+  bool isNumeric(String s) {
+    return double.tryParse(s) != null;
   }
 }

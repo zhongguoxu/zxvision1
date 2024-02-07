@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/controllers/cart_controller.dart';
 import 'package:zxvision1/controllers/order_controller.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 
@@ -13,11 +14,11 @@ class PaymentOptionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OrderController>(builder: (orderController) {
-      bool _selected = orderController.paymentIndex == index;
+    return GetBuilder<CartController>(builder: (cartController) {
+      bool _selected = cartController.paymentIndex == index;
       return InkWell(
         onTap: (){
-          orderController.setPaymentIndex(index);
+          cartController.setPaymentIndex(index);
         },
         child: Container(
           padding: EdgeInsets.only(bottom: Dimensions.height10/2),

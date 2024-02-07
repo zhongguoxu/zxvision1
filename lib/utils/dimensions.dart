@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:get/get.dart';
 
 class Dimensions {
@@ -38,4 +40,6 @@ class Dimensions {
   static double bottomHeightBar = screenHeight/7.03;
 
   static double splashImg = screenHeight/3.38;
+
+  // static TextStyle
 }

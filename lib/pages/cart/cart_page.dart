@@ -12,7 +12,7 @@ import 'package:zxvision1/controllers/popular_product_controller.dart';
 import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/models/place_order_model.dart';
 import 'package:zxvision1/pages/home/main_food_page.dart';
-import 'package:zxvision1/pages/order/delivery_options.dart';
+import 'package:zxvision1/pages/order/widgets/delivery_options.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/app_constants.dart';
 import 'package:zxvision1/utils/colors.dart';
@@ -20,49 +20,13 @@ import 'package:zxvision1/utils/dimensions.dart';
 import 'package:zxvision1/widgets/app_icon.dart';
 import 'package:zxvision1/widgets/app_text_field.dart';
 import 'package:zxvision1/widgets/big_text.dart';
-import 'package:zxvision1/pages/order/payment_option_button.dart';
+import 'package:zxvision1/pages/order/widgets/payment_option_button.dart';
 import 'package:zxvision1/widgets/small_text.dart';
 
 import '../../controllers/recommended_product_controller.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
-
-  void _placeOrder(UserController userController, CartController cartController) {
-    print("zack can place order");
-    var location = userController.addressList.last;
-    var cart = cartController.getItems;
-    var user = Get.find<UserController>().userModel;
-    var products = Get.find<CartController>().compressCartIntoString(cart);
-    var subTotal = Get.find<CartController>().calculateSubtotal(cart);
-    // var now = DateTime.now();
-    // var formatter = DateFormat('yyyy-MM-dd');
-    // String formattedDate = formatter.format(now);
-    // print(formattedDate);
-    var time = DateTime.now().toString().substring(0, 19);
-    PlaceOrderBody placeOrder = PlaceOrderBody(
-      products: products,
-      subTotal: subTotal.toStringAsFixed(2),
-      tax: (subTotal*AppConstants.TAX).toStringAsFixed(2),
-      total: (subTotal*(1+AppConstants.TAX)).toStringAsFixed(2),
-      createdTime: time,
-      paymentMethod: Get.find<OrderController>().paymentIndex==0 ? "Cash":"Card",
-      customerAddress: location.address,
-      customerName: user!.name,
-      customerPhone: user!.phone,
-      orderId: time.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "")+user!.phone.substring(user!.phone.length-4, user!.phone.length),
-      orderStatus: 'New',
-      tips: '0.0',
-      remarks: Get.find<OrderController>().orderNote.isNotEmpty ? Get.find<OrderController>().orderNote : AppConstants.EMPTY_STRING,
-      orderType: Get.find<OrderController>().deliveryType
-    );
-    // print(user!.phone);
-    print("zack place order products: " + placeOrder.products);
-    Get.find<OrderController>().placeOrder(
-        placeOrder,
-        _callBack
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,8 +179,8 @@ class CartPage extends StatelessWidget {
           })
         ],
       ),
-      bottomNavigationBar: GetBuilder<OrderController>(builder: (orderController) {
-        _noteController.text = orderController.orderNote;
+      bottomNavigationBar: GetBuilder<CartController>(builder: (cartController) {
+        _noteController.text = cartController.orderNote;
         return GetBuilder<CartController>(builder: (cartController) {
           return Container(
               height: Dimensions.bottomHeightBar+50,
@@ -317,7 +281,7 @@ class CartPage extends StatelessWidget {
                           );
                         }
                     ).whenComplete(() {
-                      orderController.setOrderNote(_noteController.text.trim());
+                      cartController.setOrderNote(_noteController.text.trim());
                     }),
                     child: SizedBox(
                       width: double.maxFinite,
@@ -354,11 +318,11 @@ class CartPage extends StatelessWidget {
                                       Get.toNamed(RouteHelper.getAddressPage());
                                     } else {
                                       print("zack this is true 1");
-                                      _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                                      Get.toNamed(RouteHelper.getOrderReviewPage());
                                     }
                                   });
                                 } else {
-                                  _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                                  Get.toNamed(RouteHelper.getOrderReviewPage());
                                 }
                               });
                             } else {
@@ -368,44 +332,14 @@ class CartPage extends StatelessWidget {
                                     Get.toNamed(RouteHelper.getAddressPage());
                                   } else {
                                     print("zack this is true 2");
-                                    _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                                    Get.toNamed(RouteHelper.getOrderReviewPage());
                                   }
                                 });
                               } else {
                                 print("zack this is true 3");
-                                _placeOrder(Get.find<UserController>(), Get.find<CartController>());
+                                Get.toNamed(RouteHelper.getOrderReviewPage());
                               }
                             }
-                            // if (canPlaceOrder) {
-                            //   print("zack can place order");
-                            //   var location = Get.find<UserController>().getUserAddress();
-                            //   var cart = Get.find<CartController>().getItems;
-                            //   var user = Get.find<UserController>().userModel;
-                            //   var products = Get.find<CartController>().compressCartIntoString(cart);
-                            //   var subTotal = Get.find<CartController>().calculateSubtotal(cart);
-                            //   PlaceOrderBody placeOrder = PlaceOrderBody(
-                            //     products: products,
-                            //     subTotal: subTotal.toStringAsFixed(2),
-                            //     tax: (subTotal*AppConstants.TAX).toStringAsFixed(2),
-                            //     total: (subTotal*(1+AppConstants.TAX)).toStringAsFixed(2),
-                            //     createdTime: 'Temp',
-                            //     paymentMethod: 'Temp',
-                            //     customerAddress: location.address,
-                            //     customerName: user!.name,
-                            //     customerPhone: user!.phone,
-                            //     orderId: 'Temp',
-                            //     orderStatus: 'New',
-                            //     tips: '0.0',
-                            //     remarks: "customer remarks",
-                            //
-                            //   );
-                            //   Get.find<OrderController>().placeOrder(
-                            //       placeOrder,
-                            //       _callBack
-                            //   );
-                            // } else {
-                            //   print("zack can is false now");
-                            // }
                           } else {
                             Get.toNamed(RouteHelper.getLoginPage());
                           }
@@ -420,23 +354,5 @@ class CartPage extends StatelessWidget {
         },);
       })
     );
-  }
-
-  void _callBack(bool isSuccessful, String message, String orderId) {
-    if (isSuccessful) {
-      print("zack successful callback");
-      Get.find<CartController>().clear();
-      Get.find<CartController>().removeCartSharedPreference();
-      Get.find<CartController>().addToHistory();
-      if (Get.find<OrderController>().paymentIndex == 0) { // cash order
-
-      } else { // card order
-
-      }
-      Get.offNamed(RouteHelper.getOrderSuccessPage(orderId, 'success'));
-    } else {
-      print("zack fails callback");
-      Get.offNamed(RouteHelper.getOrderSuccessPage(orderId, 'fail'));
-    }
   }
 }

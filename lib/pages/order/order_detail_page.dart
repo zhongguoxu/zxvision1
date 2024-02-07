@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:zxvision1/controllers/order_controller.dart';
 import 'package:zxvision1/models/cart_model.dart';
 import 'package:zxvision1/models/place_order_model.dart';
-import 'package:zxvision1/pages/order/order_detail_item.dart';
+import 'package:zxvision1/pages/order/widgets/order_detail_item.dart';
 import 'package:zxvision1/utils/app_constants.dart';
 import 'package:zxvision1/utils/colors.dart';
 import 'package:zxvision1/utils/dimensions.dart';
@@ -45,6 +45,7 @@ class OrderDetailPage extends StatelessWidget {
                 ),
               ) : SizedBox(),
               ListView.builder(
+                padding: EdgeInsets.all(0),
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: products.length,

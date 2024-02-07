@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/controllers/system_controller.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 
@@ -23,6 +24,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   Future<void> _loadResources () async {
     await Get.find<PopularProductController>().getPopularProductList();
     await Get.find<RecommendedProductController>().getRecommendedProductList();
+    await Get.find<SystemController>().getSystemInfo();
   }
 
   @override

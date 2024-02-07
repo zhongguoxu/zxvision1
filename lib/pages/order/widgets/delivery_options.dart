@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/controllers/cart_controller.dart';
 import 'package:zxvision1/controllers/order_controller.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 
@@ -18,14 +19,14 @@ class DeliveryOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OrderController>(builder: (orderController) {
+    return GetBuilder<CartController>(builder: (cartController) {
       return Row(
         children: [
           Radio(
             value: value,
-            groupValue: orderController.deliveryType,
+            groupValue: cartController.deliveryType,
             onChanged: (String? value) {
-              orderController.setDeliveryType(value!);
+              cartController.setDeliveryType(value!);
               print(value.toString());
             },
             activeColor: Theme.of(context).primaryColor,
