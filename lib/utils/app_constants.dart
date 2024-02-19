@@ -17,6 +17,7 @@ class AppConstants {
 
   // System
   static const String GET_SYSTEM_INFO = BASE_URL + "/backend/system/Get_System_Info.php";
+  static const String GET_Product_TYPE = BASE_URL + "/backend/system/Get_Product_Type.php";
 
   static const String REGISTRATION_URI = "/api/v1/auth/register";
   static const String LOGIN_URI = "/api/v1/auth/login";
@@ -27,8 +28,15 @@ class AppConstants {
   static const String GEOCODE_URI="/api/v1/config/geocode-api";
 
   static const String USER_ACCOUNT = "User-account";
+  static const String ALL_PRODUCT_TYPE_ID = "All";
   static const String POPULAR_PRODUCT_TYPE_ID = "2";
   static const String RECOMMENDED_PRODUCT_TYPE_ID = "3";
+  static const String VEGETABLE_AND_FRUIT_TYPE_ID = "4";
+  static const String MEAT_AND_SEAFOOD_TYPE_ID = "5";
+  static const String DAIRY_AND_EGGS_TYPE_ID = "6";
+  static const String SAUCES_TYPE_ID = "7";
+  static const String BEVERAGE_TYPE_ID = "8";
+  static const String PET_TYPE_ID = "9";
 
   static const double ZOOM_IN = 17;
 
@@ -36,6 +44,7 @@ class AppConstants {
   static const String SIGN_UP_URL = BASE_URL + "/backend/account/Add_New_Customer.php";
   static const String GET_PRODUCTS_URL = BASE_URL + "/backend/product/Get_Products.php";
   static const String GET_RECOMMENDED_URL = BASE_URL + "/backend/product/Get_Products.php";
+  static const String GET_FoodPerType_URL = BASE_URL + "/backend/product/Get_Products.php";
   static const String MAP_HOST = 'https://maps.google.com/maps/api/geocode/json';
   static const String APP_API = 'AIzaSyAxZOV5TpE9YjJh77040FSbTyGmtZqZtWU';
 

@@ -88,8 +88,7 @@ class Accountpage extends StatelessWidget {
                         onTap: () {
                           if (Get.find<UserController>().userHasLoggedIn()) {
                             Get.find<UserController>().clearSharedData();
-                            Get.find<CartController>().clearCartHistory();
-                            Get.find<CartController>().clear();
+                            Get.find<CartController>().clearCartAndHistory(true, true);
                             Get.toNamed(RouteHelper.getLoginPage());
                           }
                         },

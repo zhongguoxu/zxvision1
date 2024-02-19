@@ -93,20 +93,20 @@ class CartPage extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      var popularIndex = Get.find<PopularProductController>().popularProductList.indexOf(_cartList[index].product!);
-                                      if (popularIndex >= 0) {
-                                        Get.toNamed(RouteHelper.getPopularFood(popularIndex, "cartPage"));
-                                      } else {
-                                        var recommendedIndex = Get.find<RecommendedProductController>().recommendedProductList.indexOf(_cartList[index].product!);
-                                        if (recommendedIndex<0) {
-                                          Get.snackbar("History product", "Product review is not available for history product!",
-                                            backgroundColor: AppColors.mainColor,
-                                            colorText: Colors.white,
-                                          );
-                                        } else {
-                                          Get.toNamed(RouteHelper.getRecommendedFood(recommendedIndex, "cartPage"));
-                                        }
-                                      }
+                                      // var popularIndex = Get.find<PopularProductController>().popularProductList.indexOf(_cartList[index].product!);
+                                      // if (popularIndex >= 0) {
+                                      //   Get.toNamed(RouteHelper.getPopularFood(popularIndex, "cartPage"));
+                                      // } else {
+                                      //   var recommendedIndex = Get.find<RecommendedProductController>().recommendedProductList.indexOf(_cartList[index].product!);
+                                      //   if (recommendedIndex<0) {
+                                      //     Get.snackbar("History product", "Product review is not available for history product!",
+                                      //       backgroundColor: AppColors.mainColor,
+                                      //       colorText: Colors.white,
+                                      //     );
+                                      //   } else {
+                                      //     Get.toNamed(RouteHelper.getRecommendedFood(recommendedIndex, "cartPage"));
+                                      //   }
+                                      // }
                                     },
                                     child: Container(
                                       width: Dimensions.height20*5,

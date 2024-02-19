@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/controllers/food_type_controller.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
 import 'package:zxvision1/controllers/system_controller.dart';
-import 'package:zxvision1/pages/auth/signin_page.dart';
-import 'package:zxvision1/pages/auth/signup_page.dart';
-import 'package:zxvision1/pages/cart/cart_page.dart';
-import 'package:zxvision1/pages/food/popular_food_detail.dart';
-import 'package:zxvision1/pages/food/recommended_food_detail.dart';
-import 'package:zxvision1/pages/home/food_page_body.dart';
-import 'package:zxvision1/pages/home/main_food_page.dart';
-import 'package:zxvision1/pages/payment/payment_page.dart';
-import 'package:zxvision1/pages/splash/splash_page.dart';
 import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/colors.dart';
 import 'controllers/cart_controller.dart';
@@ -34,21 +26,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.find<CartController>().getCartData();
+    Get.find<CartController>().getCartList();
     return GetBuilder<PopularProductController>(builder: (_) {
       return GetBuilder<RecommendedProductController>(builder: (_) {
         return GetBuilder<SystemController>(builder: (_) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            // home: PaymentPage(),
-            // home: SplashPage(),
-            initialRoute: RouteHelper.getSplashPage(),
-            getPages: RouteHelper.routes,
-            theme: ThemeData(
-              primaryColor: AppColors.mainColor,
-            ),
-          );
+          return GetBuilder<FoodTypeController>(builder: (_) {
+            return GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              // home: PaymentPage(),
+              // home: SplashPage(),
+              initialRoute: RouteHelper.getSplashPage(),
+              getPages: RouteHelper.routes,
+              theme: ThemeData(
+                primaryColor: AppColors.mainColor,
+              ),
+            );
+          });
         });
       });
     },);

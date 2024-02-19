@@ -12,6 +12,6 @@ class RecommendedProductRepo extends GetxService {
   //   return await apiClient.getData(AppConstants.RECOMMENDED_PRODUCT_URI);
   // }
   Future<http.Response> getRecommendedProductList() async {
-    return await httpClient.postData(AppConstants.GET_RECOMMENDED_URL, {"type_id": AppConstants.RECOMMENDED_PRODUCT_TYPE_ID});
+    return await httpClient.postData(AppConstants.GET_RECOMMENDED_URL, {"type_id": AppConstants.ALL_PRODUCT_TYPE_ID});
   }
 }

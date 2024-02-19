@@ -25,6 +25,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     await Get.find<PopularProductController>().getPopularProductList();
     await Get.find<RecommendedProductController>().getRecommendedProductList();
     await Get.find<SystemController>().getSystemInfo();
+    await Get.find<SystemController>().getProductType();
   }
 
   @override

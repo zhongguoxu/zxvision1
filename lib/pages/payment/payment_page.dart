@@ -14,7 +14,8 @@ import 'package:uuid/uuid.dart';
 
 // payment_screen.dart
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+  final int total;
+  const PaymentPage({Key? key, required this.total}) : super(key: key);
 
   @override
   _PaymentPageState createState() => _PaymentPageState();

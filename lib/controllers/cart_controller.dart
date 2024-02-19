@@ -11,7 +11,7 @@ class CartController extends GetxController {
   CartController({required this.cartRepo});
   Map<int, CartModel> _items={};
   Map<int, CartModel> get items=>_items;
-  List<CartModel> storageItems=[]; // only for storage and sharedpreference
+  List<CartModel> storageItems=[]; // only for storage and shared preference
 
   int _tipIndex = 0;
   int get tipIndex => _tipIndex;
@@ -24,6 +24,16 @@ class CartController extends GetxController {
   String get deliveryType => _deliveryType;
   String _orderNote = "";
   String get orderNote => _orderNote;
+
+  bool _submitOrderSuccess = false;
+  bool get submitOrderSuccess => _submitOrderSuccess;
+  bool _chargeOrderSuccess = false;
+  bool get chargeOrderSuccess => _chargeOrderSuccess;
+
+  set setItems(Map<int, CartModel> setItems) {
+    _items = {};
+    _items = setItems;
+  }
 
   void addItem(ProductModel product, int quantity) {
     var totalQuantity=0;
@@ -109,50 +119,73 @@ class CartController extends GetxController {
     return total;
   }
 
-  List<CartModel> getCartData() {
-    setCart = cartRepo.getCartList(); // setCart is to call the setCart function below where storageItems are updated
-    return storageItems;
-  }
-
-  set setCart(List<CartModel> items) {
-    storageItems = items;
+  List<CartModel> getCartList() {
+    // setCart = cartRepo.getCartList(); // setCart is to call the setCart function below where storageItems are updated
+    storageItems = cartRepo.getCartList();
     for(int i=0; i<storageItems.length; i++) {
       _items.putIfAbsent(storageItems[i].product!.id!, () => storageItems[i]);
     }
+    return storageItems;
   }
-
-  void addToHistory() {
-    cartRepo.addToCartHistoryList();
-    clear();
-  }
-
-  void clear() {
-    _items={};
-    update();
-  }
-
   List<CartModel> getCartHistoryList() {
     return cartRepo.getCartHistoryList();
-  }
-
-  set setItems(Map<int, CartModel> setItems) {
-    _items = {};
-    _items = setItems;
   }
 
   void addToCartList() {
     cartRepo.addToCartList(getItems);
     update();
   }
+  void addToCartHistory() {
+    cartRepo.addToCartHistoryList();
+  }
 
-  void clearCartHistory() {
-    cartRepo.clearCartHistory();
+  // void clearCart() {
+  //   _items={};
+  //   cartRepo.clearCart();
+  //   update();
+  // }
+  // void clearCartHistory() {
+  //   _items={};
+  //   cartRepo.clearCartHistory();
+  //   update();
+  // }
+
+  void clearCartAndHistory(bool clearCart, bool clearHistory) {
+    _items={};
+    if (clearCart) {
+      cartRepo.clearCart();
+    }
+    if (clearHistory) {
+      cartRepo.clearCartHistory();
+    }
     update();
   }
 
-  void removeCartSharedPreference() {
+  // set setCart(List<CartModel> items) {
+  //   storageItems = items;
+  //   for(int i=0; i<storageItems.length; i++) {
+  //     _items.putIfAbsent(storageItems[i].product!.id!, () => storageItems[i]);
+  //   }
+  // }
 
-  }
+
+
+
+
+
+
+
+
+
+
+  // void clearCartHistory() {
+  //   cartRepo.clearCartHistory();
+  //   update();
+  // }
+
+  // void removeCartSharedPreference() {
+  //
+  // }
 
   String compressCartIntoString(List<CartModel> cartList) {
     var proStr = "";
@@ -225,5 +258,14 @@ class CartController extends GetxController {
 
   bool isNumeric(String s) {
     return double.tryParse(s) != null;
+  }
+
+  void setSubmitStatus(bool res) {
+    _submitOrderSuccess = res;
+    update();
+  }
+  void setChargeStatus(bool res) {
+    _chargeOrderSuccess = res;
+    update();
   }
 }

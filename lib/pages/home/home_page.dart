@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   List pages=[
     MainFoodPage(),
     OrderPage(),
-    CartHistory(),
+    // CartHistory(),
     Accountpage(),
   ];
 
@@ -61,10 +61,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.archive),
             label: "history",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: "cart",
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.shopping_cart),
+          //   label: "cart",
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: "me",

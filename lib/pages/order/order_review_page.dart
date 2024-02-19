@@ -38,12 +38,12 @@ class OrderReviewPage extends StatelessWidget {
         products: products,
         subTotal: subTotal.toStringAsFixed(2),
         tax: (subTotal*AppConstants.TAX).toStringAsFixed(2),
-        total: (subTotal*(1+AppConstants.TAX)).toStringAsFixed(2),
+        total: (subTotal*(1+AppConstants.TAX)+Get.find<CartController>().tipAmount).toStringAsFixed(2),
         createdTime: time,
         paymentMethod: Get.find<CartController>().paymentIndex==0 ? "Cash":"Card",
         customerAddress: location.address,
         customerName: user!.name,
-        customerPhone: user!.phone,
+        customerPhone: user.phone,
         orderId: time.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "")+user!.phone.substring(user!.phone.length-4, user!.phone.length),
         orderStatus: 'New',
         tips: Get.find<CartController>().tipAmount.toStringAsFixed(2),
@@ -51,16 +51,21 @@ class OrderReviewPage extends StatelessWidget {
         orderType: Get.find<CartController>().deliveryType
     );
     // print(user!.phone);
-    Get.find<OrderController>().placeOrder(
-        placeOrder,
-        _callBack
-    );
+    if (Get.find<CartController>().submitOrderSuccess == false) {
+      Get.find<OrderController>().placeOrder(
+          placeOrder,
+          _callBack
+      );
+    } else {
+      int inputTotal = (double.parse(placeOrder.total)*100).round();
+      Get.offNamed(RouteHelper.getPaymentPage(inputTotal));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController _tipController = TextEditingController();
-
+    var subTotal = 0.0;
     return Scaffold(
       appBar: AppBar(
         title: BigText(text: "Order Review", color: Colors.white,),
@@ -76,7 +81,7 @@ class OrderReviewPage extends StatelessWidget {
           return GetBuilder<SystemController>(builder: (systemController) {
             var deliveryTitle = cartController.deliveryType == "delivery" ? "delivery" : "caryy out";
             var products = Get.find<CartController>().getItems;
-            var subTotal = Get.find<CartController>().calculateSubtotal(products);
+            subTotal = Get.find<CartController>().calculateSubtotal(products);
             return Container(
               padding: EdgeInsets.symmetric(horizontal: Dimensions.width20, vertical: Dimensions.height10),
               child: Column(
@@ -284,21 +289,27 @@ class OrderReviewPage extends StatelessWidget {
       ),
     );
   }
-  void _callBack(bool isSuccessful, String message, String orderId) {
+  void _callBack(bool isSuccessful, String message, String orderId, String total) {
     if (isSuccessful) {
       print("zack successful callback");
-      Get.find<CartController>().clear();
-      Get.find<CartController>().removeCartSharedPreference();
-      Get.find<CartController>().addToHistory();
       if (Get.find<CartController>().paymentIndex == 0) { // cash order
-
+        Get.offNamed(RouteHelper.getOrderSuccessPage(orderId, 'success'));
+        clearCartMemory();
       } else { // card order
-
+        Get.find<CartController>().setSubmitStatus(true);
+        int inputTotal = (double.parse(total)*100).round();
+        Get.offNamed(RouteHelper.getPaymentPage(inputTotal));
+        //接下来， 直接在payment page上进行定向 1。success 2. fail
       }
-      Get.offNamed(RouteHelper.getOrderSuccessPage(orderId, 'success'));
     } else {
       print("zack fails callback");
+      Get.find<CartController>().setSubmitStatus(false);
       Get.offNamed(RouteHelper.getOrderSuccessPage(orderId, 'fail'));
     }
+  }
+
+  void clearCartMemory() {
+    Get.find<CartController>().addToCartHistory();
+    Get.find<CartController>().clearCartAndHistory(true, false);
   }
 }

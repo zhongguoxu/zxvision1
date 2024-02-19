@@ -15,4 +15,8 @@ class SystemRepo {
   Future<http.Response> getSystemInfo() async {
     return await httpClient.getData(AppConstants.GET_SYSTEM_INFO);
   }
+
+  Future<http.Response> getProductType() async {
+    return await httpClient.getData(AppConstants.GET_Product_TYPE);
+  }
 }

@@ -32,12 +32,12 @@ class OrderController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       String message = jsonDecode(response.body)['message'];
       String orderId = jsonDecode(response.body)['order_id'];
-      callback(true, message, orderId);
+      callback(true, message, orderId, placeOrderBody.total);
       // authRepo.saveUserAccount(UserModel.fromJson(jsonDecode(response.body)));
       // responseModel = ResponseModel(true, "Login successfully");
       // print("login successfully");
     } else {
-      callback(false, "Place order fails", "-1");
+      callback(false, "Place order fails", "-1", placeOrderBody.total);
       // responseModel = ResponseModel(false, "Login fails");
       // print("login fails");
     }

@@ -48,10 +48,11 @@ dependencies:
   cupertino_icons: ^1.0.2
 #  square_in_app_payments: ^1.7.6
   uuid: ^4.0.0
-  pay: ^1.1.0
-  firebase_core: ^1.2.1
-  firebase_messaging: ^11.2.4
+#  pay: ^1.1.0
+#  firebase_core: ^1.2.1
+#  firebase_messaging: ^11.2.4
   flutter_local_notifications: ^9.1.5
+#  square_in_app_payments: ^1.7.8
 
 dev_dependencies:
   flutter_test:

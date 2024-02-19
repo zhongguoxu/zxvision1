@@ -1,13 +1,17 @@
 import 'package:get/get.dart';
+import 'package:zxvision1/models/products_model.dart';
 import 'package:zxvision1/pages/address/add_new_address_page.dart';
 import 'package:zxvision1/pages/auth/signin_page.dart';
 import 'package:zxvision1/pages/cart/cart_page.dart';
+import 'package:zxvision1/pages/food/food_detail.dart';
+import 'package:zxvision1/pages/food/food_type.dart';
 import 'package:zxvision1/pages/food/popular_food_detail.dart';
 import 'package:zxvision1/pages/food/recommended_food_detail.dart';
 import 'package:zxvision1/pages/home/home_page.dart';
 import 'package:zxvision1/pages/order/order_detail_page.dart';
 import 'package:zxvision1/pages/order/order_review_page.dart';
 import 'package:zxvision1/pages/payment/order_success_page.dart';
+import 'package:zxvision1/pages/payment/payment_page.dart';
 import 'package:zxvision1/pages/splash/splash_page.dart';
 
 import '../pages/address/pick_new_address_map.dart';
@@ -24,6 +28,9 @@ class RouteHelper {
   static const String orderSuccess="/order-success";
   static const String orderDetail="/order-detail";
   static const String orderReview="/order-review";
+  static const String paymentPage="/payment";
+  static const String foodTypePage="/food-type";
+  static const String foodDetail='/food-detail';
 
   static String getSplashPage()=>'$splashPage';
   static String getInitial()=>'$initial';
@@ -36,6 +43,9 @@ class RouteHelper {
   static String getOrderSuccessPage(String orderID, String status)=>'$orderSuccess?id=$orderID&status=$status';
   static String getOrderDetailPage(int orderIndex, String isCurrent)=>'$orderDetail?orderIndex=$orderIndex&isCurrent=$isCurrent';
   static String getOrderReviewPage()=>'$orderReview';
+  static String getPaymentPage(int total)=>'$paymentPage?&total=$total';
+  static String getFoodTypePage(int typeId)=>'$foodTypePage?&typeId=$typeId';
+  static String getFoodDetail(int foodId, String page, int typeId)=>'$foodDetail?foodId=$foodId&page=$page&typeId=$typeId';
 
   static List<GetPage> routes = [
     GetPage(name: login, page: ()=>SignInPage(), transition: Transition.fade),
@@ -55,7 +65,7 @@ class RouteHelper {
         page: () {
           var pageId = Get.parameters['pageId'];
           var page = Get.parameters['page'];
-          return RecommendedFoodDetail(pageId: int.parse(pageId!), page: page!);
+          return RecommendedFoodDetail(pageId: int.parse(pageId!), page: page!,);
         },
         transition: Transition.fadeIn,
     ),
@@ -73,5 +83,16 @@ class RouteHelper {
       isCurrent: Get.parameters['isCurrent']!,
     )),
     GetPage(name: orderReview, page: () {return OrderReviewPage();}, transition: Transition.fadeIn),
+    GetPage(name: paymentPage, page: ()=>PaymentPage(
+      total: int.parse(Get.parameters['total']!),
+    )),
+    GetPage(name: foodTypePage, page: ()=>FoodType(
+      typeId: int.parse(Get.parameters['typeId']!),
+    )),
+    GetPage(name: foodDetail, page: ()=>FoodDetail(
+      foodId: int.parse(Get.parameters['foodId']!),
+      page: Get.parameters['page']!,
+      typeId: int.parse(Get.parameters['typeId']!),
+    )),
   ];
 }

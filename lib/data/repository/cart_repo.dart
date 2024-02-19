@@ -25,9 +25,23 @@ class CartRepo {
     // print(sharedPreferences.getStringList(AppConstants.CART_LIST));
     // getCartList();
   }
+
+  void addToCartHistoryList() {
+    cartHistory = [];
+    if (sharedPreferences.containsKey(AppConstants.CART_HISTORY_LIST)) {
+      cartHistory = sharedPreferences.getStringList(AppConstants.CART_HISTORY_LIST)!;
+    }
+    cart = [];
+    if (sharedPreferences.containsKey(AppConstants.CART_LIST)) {
+      cart = sharedPreferences.getStringList(AppConstants.CART_LIST)!;
+    }
+    for(int i=0;i<cart.length;i++) {
+      cartHistory.add(cart[i]);
+    }
+    sharedPreferences.setStringList(AppConstants.CART_HISTORY_LIST, cartHistory);
+  }
   
   List<CartModel> getCartList () {
-
     List<String> carts=[];
     if (sharedPreferences.containsKey(AppConstants.CART_LIST)) {
       carts = sharedPreferences.getStringList(AppConstants.CART_LIST)!;
@@ -47,28 +61,25 @@ class CartRepo {
     return cartListHistory;
   }
 
-  void addToCartHistoryList() {
-    if (sharedPreferences.containsKey(AppConstants.CART_HISTORY_LIST)) {
-      cartHistory= sharedPreferences.getStringList(AppConstants.CART_HISTORY_LIST)!;
-    }
-    for(int i=0;i<cart.length;i++) {
-      cartHistory.add(cart[i]);
-    }
-    cart = [];
-    sharedPreferences.setStringList(AppConstants.CART_HISTORY_LIST, cartHistory);
-  }
-  void removeCart() {
-    cart = [];
-    sharedPreferences.remove(AppConstants.CART_LIST);
-  }
+  // void removeCart() {
+  //   cart = [];
+  //   sharedPreferences.remove(AppConstants.CART_LIST);
+  // }
   void clearCartHistory() {
-    removeCart();
     cartHistory=[];
-    sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
+    try {
+      sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
+    } on Exception catch (_) {
+
+    }
   }
 
-  void removeCartSharedPreference() {
-    sharedPreferences.remove(AppConstants.CART_LIST);
-    sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
+  void clearCart() {
+    cart = [];
+    try {
+      sharedPreferences.remove(AppConstants.CART_LIST);
+    } on Exception catch (_) {
+
+    }
   }
 }

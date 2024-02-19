@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zxvision1/controllers/popular_product_controller.dart';
 import 'package:zxvision1/controllers/recommended_product_controller.dart';
+import 'package:zxvision1/controllers/system_controller.dart';
 import 'package:zxvision1/models/products_model.dart';
 import 'package:zxvision1/pages/food/popular_food_detail.dart';
 import 'package:zxvision1/routes/route_helper.dart';
@@ -47,6 +48,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         // slider section
         GetBuilder<PopularProductController>(builder: (popularProducts) {
@@ -73,6 +75,73 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               activeSize: const Size(18.0, 9.0),
               activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
             ),
+          );
+        }),
+        // list of categories
+        SizedBox(height: Dimensions.height30,),
+        GetBuilder<SystemController>(builder: (systemController) {
+          // print("zack type # is: " + systemController.productTypes.where((element) => element.id!>3).toList().length.toString());
+          // Map<int, String> productCategoryTypeMap = {
+          //   4: "/images/vegetable.png",
+          //   5: "/images/meat.png",
+          //   6: "/images/dairy.png",
+          //   7: "/images/sauce.png",
+          //   8: "/images/beverage.png",
+          //   9: "/images/pet.png",
+          // };
+          var productTypes = systemController.productTypes.where((element) => element.id!>3).toList();
+          return Container(
+            height: Dimensions.height10*10,
+            child: ListView.builder(
+                // physics: ClampingScrollPhysics(),
+                // shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: productTypes.length,
+                itemBuilder: (context, index) {
+                  // return Container(
+                  //   margin: EdgeInsets.all(10),
+                  //   width: Dimensions.height10*10,
+                  //   color: index == 2 ? AppColors.mainColor : Colors.black,
+                  // );
+                  return GestureDetector(
+                    onTap: (){
+                      Get.toNamed(RouteHelper.getFoodTypePage(productTypes[index].id!));
+                    },
+                    child: Container(
+                      width: Dimensions.height10*10,
+                      margin: EdgeInsets.all(1),
+                      child: Column(
+                        children: [
+                          //Image section
+                          Container(
+                            padding: EdgeInsets.all(Dimensions.width10),
+                            width: Dimensions.height10*8,
+                            height: Dimensions.height10*8,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(Dimensions.radius20),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 5
+                                ),
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  alignment: Alignment.center,
+                                  matchTextDirection: true,
+                                  repeat: ImageRepeat.noRepeat,
+                                  image: NetworkImage(
+                                      AppConstants.BASE_URL+AppConstants.UPLOAD_URL+productTypes[index].img!
+                                  ),
+                                  fit: BoxFit.cover,
+                                )
+                            ),
+                          ),
+                          Text(productTypes[index].title!),
+                          //text container
+                        ],
+                      ),
+                    ),
+                  );
+                }),
           );
         }),
         // popular text
@@ -104,7 +173,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: (){
-                    Get.toNamed(RouteHelper.getRecommendedFood(index, "home"));
+                    // Get.toNamed(RouteHelper.getRecommendedFood(index, "home"));
+                    Get.toNamed(RouteHelper.getFoodDetail(index, "recommend", 0));
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom: Dimensions.height10),
@@ -198,7 +268,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         children: [
           GestureDetector(
             onTap: () {
-              Get.toNamed(RouteHelper.getPopularFood(index, "home"));
+              // Get.toNamed(RouteHelper.getPopularFood(index, "home"));
+              Get.toNamed(RouteHelper.getFoodDetail(index, "popular", 0));
             },
             child: Container(
               height: Dimensions.pageViewContainer,

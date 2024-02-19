@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:zxvision1/data/repository/system_repo.dart';
+import 'package:zxvision1/models/product_type_model.dart';
 import 'package:zxvision1/models/response_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:zxvision1/models/system_model.dart';
@@ -18,14 +19,36 @@ class SystemController extends GetxController {
   List<SystemModel> _systemInfo = [];
   List<SystemModel> get systemInfo=>_systemInfo;
 
+  // ProductTypeModel _productTypeModel = ProductTypeModel(
+  //   id: 0,
+  //   title: "",
+  //   order: 0,
+  //   description: ""
+  // );
+  // ProductTypeModel get productType=>_productTypeModel;
+  List<ProductTypeModel> _productTypes = [];
+  List<ProductTypeModel> get productTypes=>_productTypes;
+
   Future<void> getSystemInfo() async {
     http.Response response = await systemRepo.getSystemInfo();
     if (response.statusCode == 200) {
       _systemInfo = [];
       _systemInfo.addAll(SystemModelList.fromJson(jsonDecode(response.body)).systemModelList);
-      // _popularProductList.addAll(Product.fromJson(jsonDecode(response.body)).products);
-      // print("zack get system info successfully");
       _isLoaded = true;
+      print("zack system info is ready: " + _systemInfo.toString());
+      update();
+    } else {
+
+    }
+  }
+
+  Future<void> getProductType() async {
+    http.Response response = await systemRepo.getProductType();
+    if (response.statusCode == 200) {
+      _productTypes = [];
+      _productTypes.addAll(ProductTypes.fromJson(jsonDecode(response.body)).productTypes);
+      _isLoaded = true;
+      print("zack product type is ready: " + _productTypes.length.toString());
       update();
     } else {
 
