@@ -55,6 +55,9 @@ class ProductModel {
   String? createdAt;
   String? updatedAt;
   int? typeId;
+  double? originalPrice;
+  double? envFee;
+  double? serviceFee;
   ProductModel({
     this.id,
     this.name,
@@ -66,6 +69,9 @@ class ProductModel {
     this.createdAt,
     this.updatedAt,
     this.typeId,
+    this.originalPrice,
+    this.envFee,
+    this.serviceFee,
   });
   ProductModel.fromJson(Map<String, dynamic> json) {
     id = int.parse(json['id'].toString());
@@ -78,6 +84,9 @@ class ProductModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     typeId = int.parse(json['type_id'].toString());
+    originalPrice = double.parse(json['original_price'].toString());
+    envFee = double.parse(json['env_fee'].toString());
+    serviceFee = double.parse(json['service_fee'].toString());
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String,dynamic>();
@@ -91,6 +100,9 @@ class ProductModel {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['type_id'] = this.typeId;
+    data['original_price'] = this.originalPrice;
+    data['env_fee'] = this.envFee;
+    data['service_fee'] = this.serviceFee;
     return data;
   }
 }
