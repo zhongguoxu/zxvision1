@@ -3,6 +3,7 @@ class AppConstants {
   static const int APP_VERSION = 1;
   static const double TAX = 0.05;
   static const String EMPTY_STRING = "Temp";
+  static const String STORE_ADDRESS = "3116 parsons road NW Edmonton";
 
   // static const String BASE_URL = "http://mvs.bslmeiyu.com";
   static const String BASE_URL = "https://jayu.tech/shopping-app";

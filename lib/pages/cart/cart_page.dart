@@ -146,7 +146,7 @@ class CartPage extends StatelessWidget {
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
-                                                      cartController.addItem(_cartList[index].product!, -1);
+                                                      cartController.addItemFromCart(_cartList[index].id!, -1);
                                                       // popularProductController.setQuantity(false);
                                                     },
                                                     child: Icon(Icons.remove, color: AppColors.signColor,),
@@ -156,7 +156,7 @@ class CartPage extends StatelessWidget {
                                                   SizedBox(width: Dimensions.width10,),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      cartController.addItem(_cartList[index].product!, 1);
+                                                      cartController.addItemFromCart(_cartList[index].id!, 1);
                                                       // popularProductController.setQuantity(true);
                                                     },
                                                     child: Icon(Icons.add, color: AppColors.signColor,),
@@ -230,14 +230,14 @@ class CartPage extends StatelessWidget {
                                             children: [
                                               const PaymentOptionButton(
                                                 icon: Icons.money,
-                                                title: 'Cash on delivery',
+                                                title: 'Cash',
                                                 subTitle: 'Pay after getting the delivery',
                                                 index: 0,
                                               ),
                                               SizedBox(height: Dimensions.height10,),
                                               const PaymentOptionButton(
                                                 icon: Icons.paypal_outlined,
-                                                title: 'Digital payment',
+                                                title: 'Online',
                                                 subTitle: 'Safer and faster payment',
                                                 index: 1,
                                               ),
@@ -301,7 +301,7 @@ class CartPage extends StatelessWidget {
                         child: Row(
                           children: [
                             SizedBox(width: Dimensions.width10,),
-                            BigText(text: "\$ "+cartController.totalAmout.toString()),
+                            BigText(text: "\$ "+cartController.totalAmout.toStringAsFixed(2)),
                             SizedBox(width: Dimensions.width10,),
                           ],
                         ),

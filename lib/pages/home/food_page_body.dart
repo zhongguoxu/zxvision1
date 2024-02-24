@@ -135,7 +135,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                                 )
                             ),
                           ),
-                          Text(productTypes[index].title!),
+                          Text(productTypes[index].title!, style: TextStyle(fontSize: Dimensions.font20/2*1.2),),
                           //text container
                         ],
                       ),
@@ -171,6 +171,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               shrinkWrap: true,
               itemCount: recommendedProduct.recommendedProductList.length,
               itemBuilder: (context, index) {
+                var thisProduct = recommendedProduct.recommendedProductList[index] as ProductModel;
+                var inPromotion = thisProduct.originalPrice! != thisProduct.price!;
                 return GestureDetector(
                   onTap: (){
                     // Get.toNamed(RouteHelper.getRecommendedFood(index, "home"));
@@ -190,7 +192,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                               image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: NetworkImage(
-                                      AppConstants.BASE_URL+AppConstants.UPLOAD_URL+(recommendedProduct.recommendedProductList[index] as ProductModel).img!
+                                      AppConstants.BASE_URL+AppConstants.UPLOAD_URL+thisProduct.img!
                                   )
                               )
                           ),
@@ -209,22 +211,30 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  BigText(text: (recommendedProduct.recommendedProductList[index] as ProductModel).name!),
+                                  BigText(text: thisProduct.name!),
                                   SizedBox(height: Dimensions.height10,),
-                                  SmallText(text: "With Chinese characteristics"),
+                                  SmallText(text: thisProduct.subName!),
                                   SizedBox(height: Dimensions.height10,),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      IconAndTextWidget(icon: Icons.circle_sharp,
-                                          text: "Normal",
-                                          iconColor: AppColors.iconColor1),
-                                      IconAndTextWidget(icon: Icons.location_on,
-                                          text: "1.7km",
-                                          iconColor: AppColors.mainColor),
-                                      IconAndTextWidget(icon: Icons.access_time_rounded,
-                                          text: "32min",
-                                          iconColor: AppColors.iconColor2)
+                                      Icon(inPromotion ? Icons.discount : Icons.discount_outlined, color: AppColors.iconColor1, size: Dimensions.iconSize24,),
+                                      SizedBox(width: Dimensions.width10/5,),
+                                      inPromotion ? Row(
+                                        children: [
+                                          Text(thisProduct.originalPrice!.toStringAsFixed(2), style: TextStyle(
+                                            color: const Color(0xFFccc7c5),
+                                            fontSize: 12,
+                                            height: 1.2,
+                                            decoration: TextDecoration.lineThrough,
+                                            decorationColor: Colors.red,
+                                          ),),
+                                          SizedBox(width: Dimensions.width10/2,),
+                                          SmallText(text: thisProduct.price!.toStringAsFixed(2), size: 16,),
+                                        ],
+                                      ) : SmallText(text: thisProduct.price!.toStringAsFixed(2), size: 16,),
+
+
                                     ],
                                   )
                                 ],

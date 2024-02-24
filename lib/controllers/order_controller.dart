@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:zxvision1/data/repository/order_repo.dart';
 import 'package:http/http.dart' as http;
@@ -68,22 +67,31 @@ class OrderController extends GetxController implements GetxService {
   }
 
   List<CartModel> parseStringToProductList(String productListStr) {
+    print(productListStr);
     List<CartModel> productList = [];
     productListStr.split(";").forEach((element) {
-      productList.add(parseStringToProduct(element));
+      List<String> str = element.replaceAll("{","").replaceAll("}","").split(",");
+      Map<String,dynamic> result = {};
+      for(int i=0;i<str.length;i++){
+        List<String> s = str[i].split(":");
+        result.putIfAbsent(s[0].trim(), () => s[1].trim());
+      }
+      productList.add(CartModel.fromJson(result));
     });
     return productList;
   }
 
-  CartModel parseStringToProduct(String productStr) {
-    List<String> infoList = productStr.split(',');
-    return CartModel(
-      name: infoList[0],
-      price: double.parse(infoList[1]),
-      quantity: int.parse(infoList[2]),
-      img: infoList[3],
-    );
-  }
+  // CartModel parseStringToProduct(String productStr) {
+  //   List<String> infoList = productStr.split(',');
+  //   return CartModel(
+  //     name: infoList[0],
+  //     price: double.parse(infoList[1]),
+  //     quantity: int.parse(infoList[2]),
+  //     img: infoList[3],
+  //     envFee: double.parse(infoList[3]),
+  //     serviceFee: double.parse(infoList[4]),
+  //   );
+  // }
 
   String getOrderStatus(String status) {
     if (status == "New") {

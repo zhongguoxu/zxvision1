@@ -41,7 +41,7 @@ class DeliveryOptions extends StatelessWidget {
           SizedBox(
             width: Dimensions.width10/2,
           ),
-          Text(isFree ? '(Free)':'(\$${amount/10})', style: TextStyle(fontSize: Dimensions.font20),),
+          Text(isFree ? '(Free)':'(\$${(amount/10).toStringAsFixed(2)})', style: TextStyle(fontSize: Dimensions.font20),),
         ],
       );
     });

@@ -12,6 +12,7 @@ import 'package:zxvision1/utils/dimensions.dart';
 import 'package:zxvision1/widgets/big_text.dart';
 import 'package:get/get.dart';
 import 'package:zxvision1/widgets/grey_line.dart';
+import 'package:zxvision1/widgets/small_text.dart';
 
 import '../../base/common_text_button.dart';
 import '../../models/place_order_model.dart';
@@ -27,6 +28,7 @@ class OrderReviewPage extends StatelessWidget {
     var location = Get.find<UserController>().addressList.last;
     var cart = Get.find<CartController>().getItems;
     var user = Get.find<UserController>().userModel;
+    // var products = Get.find<CartController>().compressCartIntoString(cart);
     var products = Get.find<CartController>().compressCartIntoString(cart);
     var subTotal = Get.find<CartController>().calculateSubtotal(cart);
     // var now = DateTime.now();
@@ -91,8 +93,8 @@ class OrderReviewPage extends StatelessWidget {
                       "Your " + deliveryTitle,
                     style: TextStyle(fontSize: Dimensions.font20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: Dimensions.height10/2,),
-                  Row(
+                  cartController.deliveryType == "delivery" ? SizedBox(height: Dimensions.height10/2,) : Container(),
+                  cartController.deliveryType == "delivery" ? Row(
                     children: [
                       Icon(Icons.lock_clock),
                       SizedBox(width: Dimensions.width10,),
@@ -106,7 +108,7 @@ class OrderReviewPage extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  ) : Container(), // Set time
                   SizedBox(height: Dimensions.height10/2,),
                   Row(
                     children: [
@@ -115,7 +117,7 @@ class OrderReviewPage extends StatelessWidget {
                       Container(
                         width: Dimensions.width45*7,
                         child: Text(
-                          Get.find<UserController>().addressList[0].address,
+                            cartController.deliveryType == "delivery" ? Get.find<UserController>().addressList.last.address : AppConstants.STORE_ADDRESS,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: Dimensions.font16),
                           maxLines: 2,
@@ -126,10 +128,10 @@ class OrderReviewPage extends StatelessWidget {
                   SizedBox(height: Dimensions.height10,),
                   GreyLine(),
                   SizedBox(height: Dimensions.height20,),
-                  Text("Tip your courier", style: TextStyle(fontSize: Dimensions.font20, fontWeight: FontWeight.bold)),
-                  Text("The 100% of your tip goes to your courier"),
-                  SizedBox(height: Dimensions.height10,),
-                  Row(
+                  cartController.deliveryType == "delivery" ? Text("Tip your courier", style: TextStyle(fontSize: Dimensions.font20, fontWeight: FontWeight.bold)) : Container(),
+                  cartController.deliveryType == "delivery" ? Text("The 100% of your tip goes to your courier") : Container(),
+                  cartController.deliveryType == "delivery" ? SizedBox(height: Dimensions.height10,) : Container(),
+                  cartController.deliveryType == "delivery" ? Row(
                     children: [
                       TipButton(index: 0, tip: 3.00),
                       TipButton(index: 1, tip: 5.00),
@@ -186,10 +188,10 @@ class OrderReviewPage extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ), // Tip button
-                  SizedBox(height: Dimensions.height10,),
-                  GreyLine(),
-                  SizedBox(height: Dimensions.height20,),
+                  ) : Container(), // Tip button
+                  cartController.deliveryType == "delivery" ? SizedBox(height: Dimensions.height10,) : Container(),
+                  cartController.deliveryType == "delivery" ? GreyLine() : Container(),
+                  cartController.deliveryType == "delivery" ? SizedBox(height: Dimensions.height20,) : Container(),
                   InkWell(
                     onTap: () {
                       if (cartController.paymentIndex == 1) {
@@ -220,6 +222,9 @@ class OrderReviewPage extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: products.length,
                     itemBuilder: (context, index) {
+                      var hasExtraFee = products[index].envFee! > 0 || products[index].serviceFee! > 0;
+                      var hasEnvFee = products[index].envFee! > 0;
+                      var hasServiceFee = products[index].serviceFee! > 0;
                       return GestureDetector(
                         onTap: () => null,
                         child: Container(
@@ -244,7 +249,7 @@ class OrderReviewPage extends StatelessWidget {
                               //text container
                               Expanded(
                                 child: Container(
-                                  height: Dimensions.listViewTextContainerSize,
+                                  height: Dimensions.listViewTextContainerSize*1.05,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(topRight: Radius.circular(Dimensions.radius20), bottomRight: Radius.circular(Dimensions.radius20)),
                                     color: Colors.white,
@@ -256,10 +261,18 @@ class OrderReviewPage extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         BigText(text: products[index].name!),
-                                        SizedBox(height: Dimensions.height10,),
+                                        SizedBox(height: hasExtraFee ? Dimensions.height10/4 : Dimensions.height10,),
                                         BigText(text: 'x'+products[index].quantity!.toString(), color: Theme.of(context).disabledColor,),
-                                        SizedBox(height: Dimensions.height10,),
+                                        SizedBox(height: hasExtraFee ? Dimensions.height10/4 : Dimensions.height10,),
                                         BigText(text: '\$'+products[index].price!.toString()),
+                                        hasExtraFee ? SizedBox(height: Dimensions.height10/4,) : Container(),
+                                        hasExtraFee ? Row(
+                                          children: [
+                                            hasEnvFee ? SmallText(text: 'Deposit: \$'+products[index].envFee!.toStringAsFixed(2), size: Dimensions.font16/2*1.5,) : Container(),
+                                            hasEnvFee ? SizedBox(width: Dimensions.width10,) : Container(),
+                                            hasServiceFee ? SmallText(text: 'Service: \$'+(products[index].price!*products[index].serviceFee!).toStringAsFixed(2), size: Dimensions.font16/2*1.5,) : Container(),
+                                          ],
+                                        ) : Container(),
                                       ],
                                     ),
                                   ),

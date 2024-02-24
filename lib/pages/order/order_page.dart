@@ -6,7 +6,9 @@ import 'package:zxvision1/base/custom_app_bar.dart';
 import 'package:zxvision1/controllers/order_controller.dart';
 import 'package:zxvision1/controllers/user_controller.dart';
 import 'package:zxvision1/pages/order/view_order.dart';
+import 'package:zxvision1/routes/route_helper.dart';
 import 'package:zxvision1/utils/colors.dart';
+import 'package:zxvision1/widgets/big_text.dart';
 
 import '../../utils/dimensions.dart';
 
@@ -25,8 +27,8 @@ class _OrderPageState extends State<OrderPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _isLoggedIn = Get.find<UserController>().userHasLoggedIn();
+    _tabController = TabController(length: 2, vsync: this);
     if (_isLoggedIn) {
-      _tabController = TabController(length: 2, vsync: this);
       if (Get.find<UserController>().userModel == null) {
         Get.find<UserController>().getUserInfo().then((_) {
           Get.find<OrderController>().getOrderList(Get.find<UserController>().userModel!.phone);
@@ -42,7 +44,7 @@ class _OrderPageState extends State<OrderPage> with TickerProviderStateMixin {
       appBar: CustomAppBar(
         title: "My Orders",
       ),
-      body: Column(
+      body: Get.find<UserController>().userHasLoggedIn() ? Column(
         children: [
           Container(
             width: Dimensions.screenWidth,
@@ -67,7 +69,41 @@ class _OrderPageState extends State<OrderPage> with TickerProviderStateMixin {
             ),
           )
         ],
-      ),
+      ) : Container(child: Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: double.maxFinite,
+            height: Dimensions.height20*8,
+            margin: EdgeInsets.only(left: Dimensions.width20,right: Dimensions.width20),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.radius20),
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                        "assets/image/test1.png"
+                    )
+                )
+            ),
+          ),
+          SizedBox(height: Dimensions.height30,),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(RouteHelper.getLoginPage());
+            },
+            child: Container(
+              width: double.maxFinite,
+              height: Dimensions.height20*5,
+              margin: EdgeInsets.only(left: Dimensions.width20,right: Dimensions.width20),
+              decoration: BoxDecoration(
+                color: AppColors.mainColor,
+                borderRadius: BorderRadius.circular(Dimensions.radius20),
+              ),
+              child: Center(child: BigText(text: "Sign in", color: Colors.white, size: Dimensions.font26,)),
+            ),
+          ),
+        ],
+      ),),),
     );
   }
 }

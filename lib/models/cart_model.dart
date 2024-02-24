@@ -6,38 +6,46 @@ class CartModel {
   double? price;
   String? img;
   int? quantity;
-  bool? isExist;
+  // bool? isExist;
   String? time;
-  ProductModel? product;
+  // ProductModel? product;
+  double? envFee;
+  double? serviceFee;
   CartModel({
     this.id,
     this.name,
     this.price,
     this.img,
     this.quantity,
-    this.isExist,
+    // this.isExist,
     this.time,
-    this.product,
+    // this.product,
+    this.envFee,
+    this.serviceFee,
   });
   CartModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.parse(json['id'].toString());
     name = json['name'];
-    price = json['price'];
+    price = double.parse(json['price'].toString());
     img = json['img'];
-    quantity = json['quantity'];
-    isExist = json['isExist'];
+    quantity = int.parse(json['quantity'].toString());
+    // isExist = json['isExist'];
     time = json['time'];
-    product = ProductModel.fromJson(json['product']);
+    // product = ProductModel.fromJson(json['product']);
+    envFee = double.parse(json['env_fee'].toString());
+    serviceFee = double.parse(json['service_fee'].toString());
   }
   Map<String, dynamic> toJson() {
     return {"id": this.id,
-    "name": this.name,
-    "price": this.price,
-    "img": this.img,
-    "quantity": this.quantity,
-    "isExist": this.isExist,
-    "time": this.time,
-    "product": this.product!.toJson()};
-
+      "name": this.name,
+      "price": this.price,
+      "img": this.img,
+      "quantity": this.quantity,
+      // "isExist": this.isExist,
+      "time": this.time,
+      // "product": this.product!.toJson(),
+      "env_fee": this.envFee,
+      "service_fee": this.serviceFee,
+    };
   }
 }

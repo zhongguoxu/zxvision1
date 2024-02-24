@@ -46,9 +46,11 @@ class CartController extends GetxController {
           price: value.price,
           img: value.img,
           quantity: quantity+value.quantity!,
-          isExist: true,
+          // isExist: true,
           time: DateTime.now().toString(),
-          product: product,
+          // product: product,
+          envFee: value.envFee,
+          serviceFee: value.serviceFee,
         );
       });
       if (totalQuantity<=0) {
@@ -62,9 +64,11 @@ class CartController extends GetxController {
           price: product.price,
           img: product.img,
           quantity: quantity,
-          isExist: true,
+          // isExist: true,
           time: DateTime.now().toString(),
-          product: product,
+          // product: product,
+          envFee: product.envFee,
+          serviceFee: product.serviceFee,
         ));
       } else {
         Get.snackbar("Item count", "You should at least add an item!",
@@ -72,6 +76,38 @@ class CartController extends GetxController {
           colorText: Colors.white,
         );
       }
+    }
+    cartRepo.addToCartList(getItems);
+    update();
+
+  }
+
+  void addItemFromCart(int productId, int quantity) {
+    var totalQuantity=0;
+    if (_items.containsKey(productId)) {
+      _items.update(productId, (value) {
+        totalQuantity=value.quantity!+quantity;
+        return CartModel(
+          id: value.id,
+          name: value.name,
+          price: value.price,
+          img: value.img,
+          quantity: quantity+value.quantity!,
+          // isExist: true,
+          time: DateTime.now().toString(),
+          // product: product,
+          envFee: value.envFee,
+          serviceFee: value.serviceFee,
+        );
+      });
+      if (totalQuantity<=0) {
+        _items.remove(productId);
+      }
+    } else {
+      Get.snackbar("Item missing", "This item is NOT found in cart",
+        backgroundColor: AppColors.mainColor,
+        colorText: Colors.white,
+      );
     }
     cartRepo.addToCartList(getItems);
     update();
@@ -123,7 +159,7 @@ class CartController extends GetxController {
     // setCart = cartRepo.getCartList(); // setCart is to call the setCart function below where storageItems are updated
     storageItems = cartRepo.getCartList();
     for(int i=0; i<storageItems.length; i++) {
-      _items.putIfAbsent(storageItems[i].product!.id!, () => storageItems[i]);
+      _items.putIfAbsent(storageItems[i].id!, () => storageItems[i]);
     }
     return storageItems;
   }
@@ -192,20 +228,28 @@ class CartController extends GetxController {
     var kk = -1;
     for (var cart in cartList) {
       kk += 1;
-      proStr += cart.product!.name!;
-      proStr += ",";
-
-      proStr += cart.price!.toString();
-      proStr += ",";
-
-      proStr += cart.quantity!.toString();
-      proStr += ",";
-
-      proStr += cart.img!;
-
+      // proStr += cart.name!;
+      // proStr += ",";
+      //
+      // proStr += cart.price!.toString();
+      // proStr += ",";
+      //
+      // proStr += cart.quantity!.toString();
+      // proStr += ",";
+      //
+      // proStr += cart.img!;
+      // proStr += ",";
+      //
+      // proStr += cart.envFee!.toStringAsFixed(2);
+      // proStr += ",";
+      //
+      // proStr += cart.serviceFee!.toStringAsFixed(2);
+      //
+      proStr += cart.toJson().toString(); // remove this line if toJson doesn't work well
       if (kk < (cartList.length - 1)) {
         proStr += ";";
       }
+
     }
     return proStr;
   }
@@ -213,7 +257,7 @@ class CartController extends GetxController {
   double calculateSubtotal(List<CartModel> cartList) {
     var subTotal = 0.0;
     for (var cart in cartList) {
-      subTotal += cart.quantity! * cart.product!.price!;
+      subTotal += cart.quantity! * cart.price!;
     }
     return subTotal;
   }

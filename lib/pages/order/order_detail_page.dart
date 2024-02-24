@@ -9,6 +9,7 @@ import 'package:zxvision1/utils/colors.dart';
 import 'package:zxvision1/utils/dimensions.dart';
 import 'package:zxvision1/widgets/big_text.dart';
 import 'package:get/get.dart';
+import 'package:zxvision1/widgets/small_text.dart';
 
 class OrderDetailPage extends StatelessWidget {
   final int orderIndex;
@@ -50,6 +51,9 @@ class OrderDetailPage extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: products.length,
                 itemBuilder: (context, index) {
+                  var hasExtraFee = products[index].envFee! > 0 || products[index].serviceFee! > 0;
+                  var hasEnvFee = products[index].envFee! > 0;
+                  var hasServiceFee = products[index].serviceFee! > 0;
                   return GestureDetector(
                     onTap: () => null,
                     child: Container(
@@ -86,10 +90,18 @@ class OrderDetailPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     BigText(text: products[index].name!),
-                                    SizedBox(height: Dimensions.height10,),
+                                    SizedBox(height: hasExtraFee ? Dimensions.height10/4 : Dimensions.height10,),
                                     BigText(text: 'x'+products[index].quantity!.toString(), color: Theme.of(context).disabledColor,),
-                                    SizedBox(height: Dimensions.height10,),
+                                    SizedBox(height: hasExtraFee ? Dimensions.height10/4 : Dimensions.height10,),
                                     BigText(text: '\$'+products[index].price!.toString()),
+                                    hasExtraFee ? SizedBox(height: Dimensions.height10/4,) : Container(),
+                                    hasExtraFee ? Row(
+                                      children: [
+                                        hasEnvFee ? SmallText(text: 'Deposit: \$'+products[index].envFee!.toStringAsFixed(2), size: Dimensions.font16/2*1.5,) : Container(),
+                                        hasEnvFee ? SizedBox(width: Dimensions.width10,) : Container(),
+                                        hasServiceFee ? SmallText(text: 'Service: \$'+(products[index].price!*products[index].serviceFee!).toStringAsFixed(2), size: Dimensions.font16/2*1.5,) : Container(),
+                                      ],
+                                    ) : Container(),
                                   ],
                                 ),
                               ),
