@@ -51,6 +51,7 @@ class CartController extends GetxController {
           // product: product,
           envFee: value.envFee,
           serviceFee: value.serviceFee,
+          originalPrice: value.originalPrice,
         );
       });
       if (totalQuantity<=0) {
@@ -69,6 +70,7 @@ class CartController extends GetxController {
           // product: product,
           envFee: product.envFee,
           serviceFee: product.serviceFee,
+          originalPrice: product.originalPrice,
         ));
       } else {
         Get.snackbar("Item count", "You should at least add an item!",
@@ -98,6 +100,7 @@ class CartController extends GetxController {
           // product: product,
           envFee: value.envFee,
           serviceFee: value.serviceFee,
+          originalPrice: value.originalPrice,
         );
       });
       if (totalQuantity<=0) {
@@ -150,7 +153,7 @@ class CartController extends GetxController {
   double get totalAmout {
     var total=0.0;
     _items.forEach((key, value) {
-      total += value.quantity! * value.price!;
+      total += value.quantity! * (value.price!+value.envFee!+value.serviceFee!);
     });
     return total;
   }
@@ -257,9 +260,20 @@ class CartController extends GetxController {
   double calculateSubtotal(List<CartModel> cartList) {
     var subTotal = 0.0;
     for (var cart in cartList) {
-      subTotal += cart.quantity! * cart.price!;
+      subTotal += cart.quantity! * (cart.price!+cart.envFee!+cart.serviceFee!);
     }
     return subTotal;
+  }
+
+  double calculateSaving(List<CartModel> cartList) {
+    var saving = 0.0;
+    for (var cart in cartList) {
+      saving += cart.quantity! * (cart.originalPrice!-cart.price!);
+    }
+    if (saving <0) {
+      return 0.0;
+    }
+    return saving;
   }
 
   void setPaymentIndex(int index) {

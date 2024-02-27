@@ -11,6 +11,7 @@ class CartModel {
   // ProductModel? product;
   double? envFee;
   double? serviceFee;
+  double? originalPrice;
   CartModel({
     this.id,
     this.name,
@@ -22,6 +23,7 @@ class CartModel {
     // this.product,
     this.envFee,
     this.serviceFee,
+    this.originalPrice,
   });
   CartModel.fromJson(Map<String, dynamic> json) {
     id = int.parse(json['id'].toString());
@@ -34,6 +36,7 @@ class CartModel {
     // product = ProductModel.fromJson(json['product']);
     envFee = double.parse(json['env_fee'].toString());
     serviceFee = double.parse(json['service_fee'].toString());
+    originalPrice = double.parse(json['original_price'].toString());
   }
   Map<String, dynamic> toJson() {
     return {"id": this.id,
@@ -46,6 +49,7 @@ class CartModel {
       // "product": this.product!.toJson(),
       "env_fee": this.envFee,
       "service_fee": this.serviceFee,
+      "original_price": this.originalPrice,
     };
   }
 }

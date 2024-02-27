@@ -53,6 +53,7 @@ class PlaceOrderBody {
   late String _tips;
   late String _remarks;
   late String _orderType;
+  late String _saving;
 
   PlaceOrderBody(
       {
@@ -71,6 +72,7 @@ class PlaceOrderBody {
         required String tips,
         required String remarks,
         required String orderType,
+        required String saving,
       }){
     this._products = products;
     this._subTotal = subTotal;
@@ -86,6 +88,7 @@ class PlaceOrderBody {
     this._tips = tips;
     this._remarks = remarks;
     this._orderType = orderType;
+    this._saving = saving;
   }
 
   String get products => _products;
@@ -102,6 +105,7 @@ class PlaceOrderBody {
   String get tips => _tips;
   String get remarks => _remarks;
   String get orderType => _orderType;
+  String get saving => _saving;
 
   PlaceOrderBody.fromJson(Map<String, dynamic> json) {
     // if (json['cart'] != null) {
@@ -125,6 +129,7 @@ class PlaceOrderBody {
     _tips = json['tips'];
     _remarks = json['remarks'];
     _orderType = json['order_type'];
+    _saving = json['saving'];
   }
 
   Map<String, dynamic> toJson() {
@@ -147,6 +152,7 @@ class PlaceOrderBody {
     data['tips'] = this._tips;
     data['remarks'] = this._remarks;
     data['order_type'] = this._orderType;
+    data['saving'] = this._saving;
     return data;
   }
 

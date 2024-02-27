@@ -110,9 +110,11 @@ class _FoodTypeState extends State<FoodType> {
                             ),
                           ),
                         );
-                      }) : CircularProgressIndicator(
+                      }) : Center(
+                        child: CircularProgressIndicator(
                     color: AppColors.mainColor,
-                  )
+                  ),
+                      )
                 ],
               );
             },)

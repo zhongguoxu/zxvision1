@@ -31,6 +31,7 @@ class OrderReviewPage extends StatelessWidget {
     // var products = Get.find<CartController>().compressCartIntoString(cart);
     var products = Get.find<CartController>().compressCartIntoString(cart);
     var subTotal = Get.find<CartController>().calculateSubtotal(cart);
+    var saving = Get.find<CartController>().calculateSaving(cart);
     // var now = DateTime.now();
     // var formatter = DateFormat('yyyy-MM-dd');
     // String formattedDate = formatter.format(now);
@@ -50,7 +51,8 @@ class OrderReviewPage extends StatelessWidget {
         orderStatus: 'New',
         tips: Get.find<CartController>().tipAmount.toStringAsFixed(2),
         remarks: Get.find<CartController>().orderNote.isNotEmpty ? Get.find<CartController>().orderNote : AppConstants.EMPTY_STRING,
-        orderType: Get.find<CartController>().deliveryType
+        orderType: Get.find<CartController>().deliveryType,
+        saving: saving.toStringAsFixed(2),
     );
     // print(user!.phone);
     if (Get.find<CartController>().submitOrderSuccess == false) {
@@ -68,6 +70,7 @@ class OrderReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController _tipController = TextEditingController();
     var subTotal = 0.0;
+    var saving = 0.0;
     return Scaffold(
       appBar: AppBar(
         title: BigText(text: "Order Review", color: Colors.white,),
@@ -84,6 +87,7 @@ class OrderReviewPage extends StatelessWidget {
             var deliveryTitle = cartController.deliveryType == "delivery" ? "delivery" : "caryy out";
             var products = Get.find<CartController>().getItems;
             subTotal = Get.find<CartController>().calculateSubtotal(products);
+            saving = Get.find<CartController>().calculateSaving(products);
             return Container(
               padding: EdgeInsets.symmetric(horizontal: Dimensions.width20, vertical: Dimensions.height10),
               child: Column(
@@ -286,6 +290,7 @@ class OrderReviewPage extends StatelessWidget {
                   OrderDetailItem(itemName: "Subtotal", itemValue: '\$'+subTotal.toStringAsFixed(2)),
                   OrderDetailItem(itemName: "Tax", itemValue: '\$'+(subTotal*AppConstants.TAX).toStringAsFixed(2)),
                   OrderDetailItem(itemName: "Tips", itemValue: '\$'+cartController.tipAmount.toStringAsFixed(2)),
+                  OrderDetailItem(itemName: "Saving", itemValue: '\$'+saving.toStringAsFixed(2)),
                   OrderDetailItem(itemName: "Total", itemValue: '\$'+(subTotal*(1+AppConstants.TAX)+cartController.tipAmount).toStringAsFixed(2)),
                   SizedBox(height: Dimensions.height10,),
                   InkWell(

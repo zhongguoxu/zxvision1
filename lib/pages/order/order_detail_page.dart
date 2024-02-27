@@ -118,8 +118,9 @@ class OrderDetailPage extends StatelessWidget {
               OrderDetailItem(itemName: "Subtotal", itemValue: '\$'+thisOrder.subTotal),
               OrderDetailItem(itemName: "Tax", itemValue: '\$'+thisOrder.tax),
               OrderDetailItem(itemName: "Tips", itemValue: '\$'+thisOrder.tips),
+              OrderDetailItem(itemName: "Saving", itemValue: '\$'+thisOrder.saving),
               OrderDetailItem(itemName: "Total", itemValue: '\$'+thisOrder.total),
-              OrderDetailItem(itemName: "Remarks", itemValue: thisOrder.remarks),
+              OrderDetailItem(itemName: "Remarks", itemValue: thisOrder.remarks != "Temp" ? thisOrder.remarks : ""),
               SizedBox(height: Dimensions.height30,)
             ],
           );
